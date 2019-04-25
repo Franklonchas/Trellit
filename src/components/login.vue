@@ -16,36 +16,81 @@
                                 y usuarios, de manera totalmente gratuita. Fácil, intuitivo e increiblemente útil.
                                 ¿No estas registrado? ¡A que esperas!
                             </h6>
-                            <mdb-btn outline="white" color="white">Registrate</mdb-btn>
+                            <h6 v-if="this.boolRegister === true"> Si estas registrado entra</h6>
+                            <mdb-btn v-if="this.boolRegister === false" v-on:click="changeBool" outline="white"
+                                     color="white">Registrate
+                            </mdb-btn>
+                            <mdb-btn v-if="this.boolRegister === true" v-on:click="changeBool" outline="white"
+                                     color="white">Entra
+                            </mdb-btn>
                         </div>
-                        <mdb-col md="6" xl="5" class="mb-4">
-                            <mdb-card id="classic-card">
-                                <mdb-card-body class="z-depth-2 white-text">
-                                    <h3 class="text-center">
-                                        <mdb-icon icon="user"/>
-                                        Entra:
-                                    </h3>
-                                    <hr class="hr-light"/>
-                                    <mdb-input label="Email" labelColor="white" icon="envelope"/>
-                                    <mdb-input label="Contraseña" labelColor="white" icon="lock" type="password"/>
-                                    <div class="text-center mt-4 black-text">
-                                        <mdb-btn color="indigo">Entrar</mdb-btn>
+
+                        <mdb-col v-if="this.boolRegister === false" md="6" xl="5" class="mb-4">
+                            <form>
+                                <mdb-card id="classic-card">
+                                    <mdb-card-body class="z-depth-2 white-text">
+                                        <h3 class="text-center">
+                                            <mdb-icon icon="user"/>
+                                            Entra
+                                        </h3>
                                         <hr class="hr-light"/>
-                                        <div class="text-center d-flex justify-content-center white-label">
-                                            <a class="p-2 m-2">
-                                                <mdb-icon fab icon="github" class="white-text"/>
-                                            </a>
-                                            <a class="p-2 m-2">
-                                                <mdb-icon fab icon="linkedin" class="white-text"/>
-                                            </a>
-                                            <a class="p-2 m-2">
-                                                <mdb-icon fab icon="instagram" class="white-text"/>
-                                            </a>
+                                        <mdb-input label="Email" labelColor="white" icon="envelope" type="email"/>
+                                        <mdb-input label="Contraseña" labelColor="white" icon="lock" type="password"/>
+                                        <div class="text-center mt-4 black-text">
+                                            <mdb-btn color="indigo">Entrar</mdb-btn>
+                                            <hr class="hr-light"/>
+                                            <div class="text-center d-flex justify-content-center white-label">
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="github" class="white-text"/>
+                                                </a>
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="linkedin" class="white-text"/>
+                                                </a>
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="instagram" class="white-text"/>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </mdb-card-body>
-                            </mdb-card>
+                                    </mdb-card-body>
+                                </mdb-card>
+                            </form>
                         </mdb-col>
+
+                        <mdb-col v-if="this.boolRegister === true" md="6" xl="5" class="mb-4">
+                            <form>
+                                <mdb-card id="classic-card">
+                                    <mdb-card-body class="z-depth-2 white-text">
+                                        <h3 class="text-center">
+                                            <mdb-icon icon="user-edit"/>
+                                            Registrate
+                                        </h3>
+                                        <hr class="hr-light"/>
+                                        <mdb-input v-model="registerUser" label="Nombre" labelColor="white"
+                                                   icon="user"/>
+                                        <mdb-input v-model="registerEmail" label="Email" labelColor="white"
+                                                   icon="envelope" type="email"/>
+                                        <mdb-input v-model="registerPassword" label="Contraseña" labelColor="white"
+                                                   icon="lock" type="password"/>
+                                        <div class="text-center mt-4 black-text">
+                                            <mdb-btn @click="registrar" color="indigo">Registrar</mdb-btn>
+                                            <hr class="hr-light"/>
+                                            <div class="text-center d-flex justify-content-center white-label">
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="github" class="white-text"/>
+                                                </a>
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="linkedin" class="white-text"/>
+                                                </a>
+                                                <a class="p-2 m-2">
+                                                    <mdb-icon fab icon="instagram" class="white-text"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </mdb-card-body>
+                                </mdb-card>
+                            </form>
+                        </mdb-col>
+
                     </mdb-row>
                 </mdb-container>
             </mdb-mask>
@@ -55,6 +100,7 @@
 </template>
 
 <script>
+    import firebase from 'firebase'
     import {
         mdbContainer,
         mdbRow,
@@ -70,6 +116,18 @@
 
     export default {
         name: 'login',
+        data: function () {
+            return {
+                boolRegister: false,
+                registerEmail: '',
+                register: false,
+                registerPassword: '',
+                registerUser: '',
+                arrayBD: [],
+                failregister1: false,
+                failregister2: false,
+            }
+        },
         components: {
             mdbContainer,
             mdbRow,
@@ -81,6 +139,75 @@
             mdbCardBody,
             mdbInput,
             mdbIcon,
+        },
+        methods: {
+            changeBool: function () {
+                if (this.boolRegister === true) {
+                    this.boolRegister = false;
+                } else if (this.boolRegister === false) {
+                    this.boolRegister = true;
+                }
+            },
+            registrar: function () {
+                if (this.registerPassword.length <= 6) {
+                    for (let i = 0; i < this.arrayBD.length; i++) {
+                        if (this.registerUser === this.arrayBD[i].username) {
+                            i = this.arrayBD.length - 1;
+                            this.failregister1 = true;
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Este usuario ya existe.',
+                                type: 'error',
+                                position: 'top left'
+                            });
+                        }
+                        if (this.registerEmail === this.arrayBD[i].email) {
+                            i = this.arrayBD.length - 1;
+                            this.failregister2 = true;
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Este email ya existe.',
+                                type: 'error',
+                                position: 'top left'
+                            });
+                        }
+                    }
+                } else if (this.failregister1 === false && this.failregister2 === false) {
+                    firebase.database().ref('users/' + this.registerEmail).set({
+                        user: this.registerUser,
+                        email: this.registerEmail,
+                        password: this.registerPassword,
+                        rol: 'admin'
+                    }).then(() => {
+                        this.registerSuccess(),
+                            this.register = true
+                    });
+                }
+                this.failregister1 = false;
+                this.failregister2 = false;
+            },
+            loadUsers: function (users) {
+                this.arrayBD = [];
+                for (let key in users) {
+                    this.arrayBD.push({
+                        user: users[key].username,
+                        email: users[key].email,
+                        password: users[key].password,
+                        rol: users[key].userType
+                    })
+                }
+            },
+            registerSuccess: function () {
+                this.$notify({
+                    group: 'foo',
+                    title: 'Te has registrado con exito.',
+                    type: 'success',
+                    position: 'top left'
+                });
+            },
+        },
+        mounted() {
+            firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()))
         }
     }
 </script>

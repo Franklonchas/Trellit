@@ -1,6 +1,6 @@
 <template>
 
-    <mdb-footer color="green lighten-2" class="font-small pt-4 mt-4">
+    <mdb-footer color="mdb-color darken-3" class="font-small pt-4 mt-4">
         <mdb-container class="text-left">
             <mdb-row>
                 <mdb-col sm="6">
@@ -13,7 +13,6 @@
                     <ul>
                         <li class="list-unstyled"><a href="#!">Github del desarrollador</a></li>
                         <li class="list-unstyled"><a href="#!">Mapa de la web</a></li>
-                        <li class="list-unstyled"><a href="#!">Información legal</a></li>
                         <li class="list-unstyled"><a href="#!">Portfolio personal</a></li>
                     </ul>
                 </mdb-col>

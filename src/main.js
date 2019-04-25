@@ -2,12 +2,15 @@ import Vue from 'vue'
 //////////
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbvue/build/css/mdb.css';
+import Notifications from 'vue-notification'
+import firebase from 'firebase';
 //TIENEN QUE ESTAR ANTES DEL APP.VUE!!!!!!!!!!
 import App from './App.vue'
 import router from './router'
-import firebase from 'firebase';
+
 
 Vue.config.productionTip = false;
+Vue.use(Notifications);
 
 // Initialize Firebase
 const config = {
