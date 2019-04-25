@@ -34,10 +34,12 @@
                                             Entra
                                         </h3>
                                         <hr class="hr-light"/>
-                                        <mdb-input label="Email" labelColor="white" icon="envelope" type="email"/>
-                                        <mdb-input label="Contraseña" labelColor="white" icon="lock" type="password"/>
+                                        <mdb-input v-model="logUser" label="Email" labelColor="white" icon="envelope"
+                                                   type="email"/>
+                                        <mdb-input v-model="logPass" label="Contraseña" labelColor="white" icon="lock"
+                                                   type="password"/>
                                         <div class="text-center mt-4 black-text">
-                                            <mdb-btn color="indigo">Entrar</mdb-btn>
+                                            <mdb-btn @click="entrar" color="indigo">Entrar</mdb-btn>
                                             <hr class="hr-light"/>
                                             <div class="text-center d-flex justify-content-center white-label">
                                                 <a class="p-2 m-2">
@@ -126,6 +128,10 @@
                 arrayBD: [],
                 failregister1: false,
                 failregister2: false,
+                logUser: '',
+                logPass: '',
+                failLog1: true,
+                failLog2: true
             }
         },
         components: {
@@ -178,7 +184,8 @@
                             });
                         }
                     }
-                } if (this.failregister1 === false || this.failregister2 === false) {
+                }
+                if (this.failregister1 === false || this.failregister2 === false) {
                     firebase.database().ref('users/' + this.registerUser).set({
                         user: this.registerUser,
                         email: this.registerEmail,
@@ -214,6 +221,41 @@
                     speed: 1500
                 });
             },
+            entrar: function () {
+                for (let i = 0; i < this.arrayBD.length; i++) {
+                    if (this.logUser === this.arrayBD[i].email) {
+                        this.failLog1 = false;
+                    }
+                    if (this.logPass === this.arrayBD[i].password) {
+                        this.failLog2 = false;
+                    }
+                }
+                if (this.failLog1 === false && this.failLog2 === false) {
+                    //just check notify
+                    this.$notify({
+                        group: 'foo',
+                        title: '¡Coincidencia!',
+                        text: 'Bienvenido a Trellit.',
+                        type: 'success',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
+                if (this.failLog1 === true || this.failLog2 === true) {
+                    this.$notify({
+                        group: 'foo',
+                        title: '¡Datos erroneos!',
+                        text: 'Los datos introducidos no son correctos, por favor reviselo.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
+                this.failLog1 = true;
+                this.failLog2 = true;
+            }
         },
         mounted() {
             firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()))
