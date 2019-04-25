@@ -149,16 +149,19 @@
                 }
             },
             registrar: function () {
-                if (this.registerPassword.length <= 6) {
+                if (this.registerPassword.length >= 6) {
                     for (let i = 0; i < this.arrayBD.length; i++) {
-                        if (this.registerUser === this.arrayBD[i].username) {
+                        if (this.registerUser === this.arrayBD[i].user) {
                             i = this.arrayBD.length - 1;
                             this.failregister1 = true;
                             this.$notify({
                                 group: 'foo',
-                                title: 'Este usuario ya existe.',
+                                title: '¡Usuario registrado!',
+                                text: 'Ese usuario ya ha sido usado con anterioridad, por favor use otro',
                                 type: 'error',
-                                position: 'top left'
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
                             });
                         }
                         if (this.registerEmail === this.arrayBD[i].email) {
@@ -166,18 +169,21 @@
                             this.failregister2 = true;
                             this.$notify({
                                 group: 'foo',
-                                title: 'Este email ya existe.',
+                                title: '¡Email registrado!',
+                                text: 'Ese email ya ha sido usado con anterioridad, por favor use otro',
                                 type: 'error',
-                                position: 'top left'
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
                             });
                         }
                     }
-                } else if (this.failregister1 === false && this.failregister2 === false) {
-                    firebase.database().ref('users/' + this.registerEmail).set({
+                } if (this.failregister1 === false || this.failregister2 === false) {
+                    firebase.database().ref('users/' + this.registerUser).set({
                         user: this.registerUser,
                         email: this.registerEmail,
                         password: this.registerPassword,
-                        rol: 'admin'
+                        rol: 'user'
                     }).then(() => {
                         this.registerSuccess(),
                             this.register = true
@@ -190,19 +196,22 @@
                 this.arrayBD = [];
                 for (let key in users) {
                     this.arrayBD.push({
-                        user: users[key].username,
+                        user: users[key].user,
                         email: users[key].email,
                         password: users[key].password,
-                        rol: users[key].userType
+                        rol: users[key].rol
                     })
                 }
             },
             registerSuccess: function () {
                 this.$notify({
                     group: 'foo',
-                    title: 'Te has registrado con exito.',
+                    title: '¡Has sido registrado!',
+                    text: 'Bienvenido a Trellit.',
                     type: 'success',
-                    position: 'top left'
+                    position: 'top left',
+                    duration: 3500,
+                    speed: 1500
                 });
             },
         },

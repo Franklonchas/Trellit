@@ -1,7 +1,10 @@
 <template>
     <div id="app">
-        <router-view/>
+        <keep-alive>
+            <router-view/>
+        </keep-alive>
         <myfooter></myfooter>
+        <notifications group="foo"/>
     </div>
 </template>
 
