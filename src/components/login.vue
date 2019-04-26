@@ -26,71 +26,67 @@
                         </div>
 
                         <mdb-col v-if="this.boolRegister === false" md="6" xl="5" class="mb-4">
-                            <form>
-                                <mdb-card id="classic-card">
-                                    <mdb-card-body class="z-depth-2 white-text">
-                                        <h3 class="text-center">
-                                            <mdb-icon icon="user"/>
-                                            Entra
-                                        </h3>
+                            <mdb-card id="classic-card">
+                                <mdb-card-body class="z-depth-2 white-text">
+                                    <h3 class="text-center">
+                                        <mdb-icon icon="user"/>
+                                        Entra
+                                    </h3>
+                                    <hr class="hr-light"/>
+                                    <mdb-input v-model="logUser" label="Email" labelColor="white" icon="envelope"
+                                               type="email"/>
+                                    <mdb-input v-model="logPass" label="Contraseña" labelColor="white" icon="lock"
+                                               type="password"/>
+                                    <div class="text-center mt-4 black-text">
+                                        <mdb-btn @click="entrar" color="indigo">Entrar</mdb-btn>
                                         <hr class="hr-light"/>
-                                        <mdb-input v-model="logUser" label="Email" labelColor="white" icon="envelope"
-                                                   type="email"/>
-                                        <mdb-input v-model="logPass" label="Contraseña" labelColor="white" icon="lock"
-                                                   type="password"/>
-                                        <div class="text-center mt-4 black-text">
-                                            <mdb-btn @click="entrar" color="indigo">Entrar</mdb-btn>
-                                            <hr class="hr-light"/>
-                                            <div class="text-center d-flex justify-content-center white-label">
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="github" class="white-text"/>
-                                                </a>
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="linkedin" class="white-text"/>
-                                                </a>
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="instagram" class="white-text"/>
-                                                </a>
-                                            </div>
+                                        <div class="text-center d-flex justify-content-center white-label">
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="github" class="white-text"/>
+                                            </a>
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="linkedin" class="white-text"/>
+                                            </a>
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="instagram" class="white-text"/>
+                                            </a>
                                         </div>
-                                    </mdb-card-body>
-                                </mdb-card>
-                            </form>
+                                    </div>
+                                </mdb-card-body>
+                            </mdb-card>
                         </mdb-col>
 
                         <mdb-col v-if="this.boolRegister === true" md="6" xl="5" class="mb-4">
-                            <form>
-                                <mdb-card id="classic-card">
-                                    <mdb-card-body class="z-depth-2 white-text">
-                                        <h3 class="text-center">
-                                            <mdb-icon icon="user-edit"/>
-                                            Registrate
-                                        </h3>
+                            <mdb-card id="classic-card">
+                                <mdb-card-body class="z-depth-2 white-text">
+                                    <h3 class="text-center">
+                                        <mdb-icon icon="user-edit"/>
+                                        Registrate
+                                    </h3>
+                                    <hr class="hr-light"/>
+                                    <mdb-input v-model="registerUser" label="Nombre" labelColor="white"
+                                               icon="user"/>
+                                    <mdb-input v-model="registerEmail" label="Email" labelColor="white"
+                                               icon="envelope" type="email"/>
+                                    <mdb-input v-model="registerPassword" label="Contraseña" labelColor="white"
+                                               icon="lock" type="password"/>
+                                    <div class="text-center mt-4 black-text">
+                                        <mdb-btn @click="registrar" color="indigo">Registrar</mdb-btn>
                                         <hr class="hr-light"/>
-                                        <mdb-input v-model="registerUser" label="Nombre" labelColor="white"
-                                                   icon="user"/>
-                                        <mdb-input v-model="registerEmail" label="Email" labelColor="white"
-                                                   icon="envelope" type="email"/>
-                                        <mdb-input v-model="registerPassword" label="Contraseña" labelColor="white"
-                                                   icon="lock" type="password"/>
-                                        <div class="text-center mt-4 black-text">
-                                            <mdb-btn @click="registrar" color="indigo">Registrar</mdb-btn>
-                                            <hr class="hr-light"/>
-                                            <div class="text-center d-flex justify-content-center white-label">
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="github" class="white-text"/>
-                                                </a>
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="linkedin" class="white-text"/>
-                                                </a>
-                                                <a class="p-2 m-2">
-                                                    <mdb-icon fab icon="instagram" class="white-text"/>
-                                                </a>
-                                            </div>
+                                        <div class="text-center d-flex justify-content-center white-label">
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="github" class="white-text"/>
+                                            </a>
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="linkedin" class="white-text"/>
+                                            </a>
+                                            <a class="p-2 m-2">
+                                                <mdb-icon fab icon="instagram" class="white-text"/>
+                                            </a>
                                         </div>
-                                    </mdb-card-body>
-                                </mdb-card>
-                            </form>
+                                    </div>
+                                </mdb-card-body>
+                            </mdb-card>
                         </mdb-col>
 
                     </mdb-row>
@@ -155,7 +151,7 @@
                 }
             },
             registrar: function () {
-                if (this.registerPassword.length >= 6) {
+                if (this.registerEmail !== '' && this.registerUser !== '' && this.registerPassword.length >= 6) {
                     for (let i = 0; i < this.arrayBD.length; i++) {
                         if (this.registerUser === this.arrayBD[i].user) {
                             i = this.arrayBD.length - 1;
@@ -163,7 +159,7 @@
                             this.$notify({
                                 group: 'foo',
                                 title: '¡Usuario registrado!',
-                                text: 'Ese usuario ya ha sido usado con anterioridad, por favor use otro',
+                                text: 'Ese usuario ya ha sido usado con anterioridad, por favor use otro.',
                                 type: 'error',
                                 position: 'top left',
                                 duration: 3500,
@@ -176,7 +172,7 @@
                             this.$notify({
                                 group: 'foo',
                                 title: '¡Email registrado!',
-                                text: 'Ese email ya ha sido usado con anterioridad, por favor use otro',
+                                text: 'Ese email ya ha sido usado con anterioridad, por favor use otro.',
                                 type: 'error',
                                 position: 'top left',
                                 duration: 3500,
@@ -184,6 +180,19 @@
                             });
                         }
                     }
+                } else {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Compruebe los datos',
+                        text: 'Los datos introducidos son erroneos, compruebe el contenido. La contraseña ha de tener' +
+                            ' al menos 6 caracteres',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                    this.failregister1 = true;
+                    this.failregister2 = true;
                 }
                 if (this.failregister1 === false || this.failregister2 === false) {
                     firebase.database().ref('users/' + this.registerUser).set({
@@ -192,8 +201,15 @@
                         password: this.registerPassword,
                         rol: 'user'
                     }).then(() => {
-                        this.registerSuccess(),
-                            this.register = true
+                        this.$notify({
+                            group: 'foo',
+                            title: '¡Has sido registrado!',
+                            text: 'Bienvenido a Trellit.',
+                            type: 'success',
+                            position: 'top left',
+                            duration: 3500,
+                            speed: 1500
+                        });
                     });
                 }
                 this.failregister1 = false;
@@ -209,17 +225,6 @@
                         rol: users[key].rol
                     })
                 }
-            },
-            registerSuccess: function () {
-                this.$notify({
-                    group: 'foo',
-                    title: '¡Has sido registrado!',
-                    text: 'Bienvenido a Trellit.',
-                    type: 'success',
-                    position: 'top left',
-                    duration: 3500,
-                    speed: 1500
-                });
             },
             entrar: function () {
                 for (let i = 0; i < this.arrayBD.length; i++) {
