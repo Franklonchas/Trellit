@@ -127,7 +127,14 @@
                 logUser: '',
                 logPass: '',
                 failLog1: true,
-                failLog2: true
+                failLog2: true,
+                charKey: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+                resultKey: '',
+                id_uniq: '',
+                localRol: '',
+                localName: '',
+                localPass: '',
+                localEmail: ''
             }
         },
         components: {
@@ -154,7 +161,7 @@
                 if (this.registerEmail !== '' && this.registerUser !== '' && this.registerPassword.length >= 6) {
                     for (let i = 0; i < this.arrayBD.length; i++) {
                         if (this.registerUser === this.arrayBD[i].user) {
-                            i = this.arrayBD.length - 1;
+                            i = this.arrayBD.length;
                             this.failregister1 = true;
                             this.$notify({
                                 group: 'foo',
@@ -165,9 +172,12 @@
                                 duration: 3500,
                                 speed: 1500
                             });
+                            this.registerUser = '';
+                            this.registerEmail = '';
+                            this.registerPassword = '';
                         }
                         if (this.registerEmail === this.arrayBD[i].email) {
-                            i = this.arrayBD.length - 1;
+                            i = this.arrayBD.length;
                             this.failregister2 = true;
                             this.$notify({
                                 group: 'foo',
@@ -178,6 +188,9 @@
                                 duration: 3500,
                                 speed: 1500
                             });
+                            this.registerUser = '';
+                            this.registerEmail = '';
+                            this.registerPassword = '';
                         }
                     }
                 } else {
@@ -193,13 +206,17 @@
                     });
                     this.failregister1 = true;
                     this.failregister2 = true;
+                    this.registerUser = '';
+                    this.registerEmail = '';
+                    this.registerPassword = '';
                 }
-                if (this.failregister1 === false || this.failregister2 === false) {
+                if (this.failregister1 === false && this.failregister2 === false) {
                     firebase.database().ref('users/' + this.registerUser).set({
                         user: this.registerUser,
                         email: this.registerEmail,
                         password: this.registerPassword,
-                        rol: 'user'
+                        rol: 'user',
+                        idUniq: ''
                     }).then(() => {
                         this.$notify({
                             group: 'foo',
@@ -211,6 +228,10 @@
                             speed: 1500
                         });
                     });
+                    this.boolRegister = false;
+                    this.registerUser = '';
+                    this.registerEmail = '';
+                    this.registerPassword = '';
                 }
                 this.failregister1 = false;
                 this.failregister2 = false;
@@ -222,32 +243,62 @@
                         user: users[key].user,
                         email: users[key].email,
                         password: users[key].password,
-                        rol: users[key].rol
+                        rol: users[key].rol,
+                        idUniq: users[key].idUniq
                     })
                 }
             },
             entrar: function () {
                 for (let i = 0; i < this.arrayBD.length; i++) {
-                    if (this.logUser === this.arrayBD[i].email) {
+                    if (this.logUser === this.arrayBD[i].email && this.logPass === this.arrayBD[i].password) {
                         this.failLog1 = false;
-                    }
-                    if (this.logPass === this.arrayBD[i].password) {
                         this.failLog2 = false;
+                        i = this.arrayBD.length;
                     }
                 }
                 if (this.failLog1 === false && this.failLog2 === false) {
-                    //just check notify
-                    this.$notify({
-                        group: 'foo',
-                        title: '¡Coincidencia!',
-                        text: 'Bienvenido a Trellit.',
-                        type: 'success',
-                        position: 'top left',
-                        duration: 3500,
-                        speed: 1500
-                    });
+                    //limpiamos variables
+                    this.localRol = '';
+                    this.localName = '';
+                    this.localEmail = '';
+                    this.localPass = '';
+                    this.resultKey = '';
+                    this.id_uniq = '';
+
+                    for (let i = 0; i < this.arrayBD.length; i++) {
+                        if (this.logUser === this.arrayBD[i].email && this.logPass === this.arrayBD[i].password) {
+                            //generamos una key unica para identificar la sesion y el usuario
+                            this.randomKey();
+                            this.id_uniq = this.resultKey + '_' + this.logUser;
+                            localStorage.setItem('sesion_activa', this.id_uniq);
+
+                            this.localRol = this.arrayBD[i].rol;
+                            this.localName = this.arrayBD[i].user;
+                            this.localEmail = this.arrayBD[i].email;
+                            this.localPass = this.arrayBD[i].password;
+                            //lo guardamos en la base de datos
+                            firebase.database().ref('users/' + this.localName).set({
+                                user: this.localName,
+                                email: this.localEmail,
+                                password: this.localPass,
+                                rol: this.localRol,
+                                idUniq: this.id_uniq
+                            }).then(() => {
+                                this.$notify({
+                                    group: 'foo',
+                                    title: 'Datos de inicio correctos.',
+                                    text: 'Bienvenido a Trellit.',
+                                    type: 'success',
+                                    position: 'top left',
+                                    duration: 3500,
+                                    speed: 1500
+                                });
+                            });
+                        }
+                    }
+                    //alert(localStorage.getItem('sesion_activa'));
                 }
-                if (this.failLog1 === true || this.failLog2 === true) {
+                if (this.failLog1 === true && this.failLog2 === true) {
                     this.$notify({
                         group: 'foo',
                         title: '¡Datos erroneos!',
@@ -257,9 +308,21 @@
                         duration: 3500,
                         speed: 1500
                     });
+                    this.logUser = '';
+                    this.logPass = '';
                 }
                 this.failLog1 = true;
                 this.failLog2 = true;
+                this.logUser = '';
+                this.logPass = '';
+            },
+
+            randomKey: function () {
+                let charactersLength = this.charKey.length;
+                for (let i = 0; i < 20; i++) {
+                    this.resultKey += this.charKey.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return this.resultKey;
             }
         },
         mounted() {
