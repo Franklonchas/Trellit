@@ -1,7 +1,7 @@
 <template>
         <mdb-navbar color="indigo" dark>
             <mdb-navbar-brand href="#">
-                Navbar
+                Trellit
             </mdb-navbar-brand>
             <mdb-navbar-toggler>
                 <mdb-navbar-nav>
