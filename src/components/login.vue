@@ -293,8 +293,8 @@
                                     duration: 3500,
                                     speed: 1500
                                 });
-                                this.$router.push('Lobby');
                             });
+                            this.$router.push('Lobby');
                         }
                     }
                     //alert(localStorage.getItem('sesion_activa'));

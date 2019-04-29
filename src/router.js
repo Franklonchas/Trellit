@@ -6,6 +6,7 @@ import Lobby from "./views/Lobby";
 Vue.use(Router);
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -17,10 +18,5 @@ export default new Router({
             name: 'lobby',
             component: Lobby,
         },
-        {
-            path: '/about',
-            name: 'about',
-            component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-        }
     ]
 })
