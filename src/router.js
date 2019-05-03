@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Lobby from './views/Lobby';
 import Calendario from './views/calendario'
+import Admin from './views/Admin'
+import Ajustes from './views/Ajustes'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -32,7 +34,47 @@ export default new Router({
         {
             path: '/calendario',
             name: 'calendario',
-            component: Calendario
+            component: Calendario,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "user" || user === "admin") {
+                    return next();
+                } else {
+                    return next('/');
+                }
+            }
         },
+        {
+            //Solo para ADMIN
+            path: '/Admin',
+            name: 'Admin',
+            component: Admin,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "admin") {
+                    return next();
+                } else {
+                    return next('/Lobbyt');
+                }
+            }
+        },
+        {
+            path: '/Ajustes',
+            name: 'Ajustes',
+            component: Ajustes,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "user" || user === "admin") {
+                    return next();
+                } else {
+                    return next('/');
+                }
+            }
+        },
+        {
+            path: '/*',
+            name: 'name',
+            component: Lobby
+        }
     ]
 })

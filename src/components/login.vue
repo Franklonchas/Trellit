@@ -324,11 +324,19 @@
                     this.resultKey += this.charKey.charAt(Math.floor(Math.random() * charactersLength));
                 }
                 return this.resultKey;
+            },
+
+            removeLocalKey: function () {
+                //Hacemos esto, ya que en caso de refresco malintencionado no se pueda obtener la key generada en local
+                localStorage.removeItem('sesion_activa');
             }
         },
         mounted() {
-            firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()))
-        }
+            firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()));
+        },
+        created() {
+            window.addEventListener('beforeunload', this.removeLocalKey);
+        },
     }
 </script>
 
