@@ -54,7 +54,7 @@ export default new Router({
                 if (user === "admin") {
                     return next();
                 } else {
-                    return next('/Lobbyt');
+                    return next('/');
                 }
             }
         },
