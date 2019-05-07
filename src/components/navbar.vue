@@ -1,7 +1,7 @@
 <template>
 
     <mdb-navbar expand="large" dark color="indigo">
-        <mdb-navbar-brand href="#">
+        <mdb-navbar-brand router-link class="nav-link" to="/Lobby">
             <mdb-icon icon="tasks"/>
             Trellit
         </mdb-navbar-brand>
