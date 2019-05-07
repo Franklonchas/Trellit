@@ -12,11 +12,30 @@
                                    type="textarea"/>
                         <mdb-input v-model="emailBoss" label="Jefe de Proyecto (email)" icon="user-tie" type="email"/>
                         <mdb-input v-model="localPass" label="Contraseña Administrador" icon="lock"
-                                   type="text"/>
+                                   type="password"/>
                     </div>
                     <div class="text-center">
                         <mdb-btn v-on:click="addProject" color="primary">Crear Proyecto</mdb-btn>
                     </div>
+                </div>
+            </mdb-col>
+
+
+            <mdb-col md="6" xl="5" class="mb-4 createProject">
+                <br>
+                <div class="z-depth-2 white-text card-body">
+                    <p class="h4 text-center mb-4">Hacer nuevo ADMINISTRADOR</p>
+                    <div class="grey-text">
+                        <mdb-input v-model="emailAdmin" label="Nuevo Admin (email)" icon="user-tie" type="email"/>
+                        <mdb-input v-model="localPass2" label="Contraseña Administrador" icon="lock"
+                                   type="password"/>
+                    </div>
+                    <div class="text-center">
+                        <mdb-btn v-on:click="addAdmin" color="primary">Generar</mdb-btn>
+                    </div>
+                    <br>
+                    <p style="color:dimgrey">Ten en cuenta que un ADMINISTRADOR tiene acceso a todos los apartados de la
+                        App. Piensate bien a quien le concedes los permisos.</p>
                 </div>
             </mdb-col>
 
@@ -44,7 +63,11 @@
                 descripcion: '',
                 emailBoss: '',
                 localPass: '',
-                flag1: false
+                flag1: false,
+                emailAdmin: '',
+                localPass2: '',
+                flag2: false,
+                flag3: false,
             }
         },
         components: {
@@ -76,7 +99,7 @@
 
                 if (this.nombreProyecto !== '' && this.descripcion !== '' && this.emailBoss !== '' && this.localPass !== '') {
                     for (let i = 0; i < this.arrayBD.length; i++) {
-                        if (this.arrayBD[i].password === this.localPass) {
+                        if (this.arrayBD[i].rol === 'admin' && this.arrayBD[i].password === this.localPass) {
                             firebase.database().ref('projects/' + this.nombreProyecto).set({
                                 project: this.nombreProyecto,
                                 description: this.descripcion,
@@ -99,6 +122,7 @@
                             this.localPass = '';
                             i = this.arrayBD.length;
                             this.flag1 = true;
+                            this.resultKey = '';
                         }
                     }
                 } else {
@@ -131,6 +155,80 @@
                     this.resultKey += this.charKey.charAt(Math.floor(Math.random() * charactersLength));
                 }
                 return this.resultKey;
+            },
+            addAdmin: function () {
+                //Forzamos llamada
+                firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()));
+
+                if (this.emailAdmin !== '' && this.localPass2 !== '') {
+                    for (let i = 0; i < this.arrayBD.length; i++) {
+                        if (this.arrayBD[i].email === this.emailAdmin && this.arrayBD[i].rol !== 'admin') {
+                            for (let j = 0; j < this.arrayBD.length; j++) {
+                                if (this.arrayBD[j].rol === 'admin' && this.localPass2 === this.arrayBD[j].password) {
+                                    firebase.database().ref('users/' + this.arrayBD[i].user).set({
+                                        user: this.arrayBD[i].user,
+                                        email: this.arrayBD[i].email,
+                                        password: this.arrayBD[i].password,
+                                        rol: 'admin',
+                                        idUniq: this.arrayBD[i].idUniq
+                                    }).then(() => {
+                                        this.$notify({
+                                            group: 'foo',
+                                            title: 'El usuario es ahora Administrador.',
+                                            text: '',
+                                            type: 'success',
+                                            position: 'top left',
+                                            duration: 3500,
+                                            speed: 1500
+                                        });
+                                    });
+                                    i = this.arrayBD.length;
+                                    j = this.arrayBD.length;
+                                    this.flag3 = true;
+                                    this.emailAdmin = '';
+                                    this.localPass2 = '';
+                                }
+                            }
+                            this.flag2 = true;
+                        }
+                    }
+                } else {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Todos los campos deben de estar llenos.',
+                        text: 'Por favor compruebe los datos introducidos.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                    this.flag2 = true;
+                    this.flag3 = true;
+                }
+                if (this.flag2 === false) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'El email introducido no es valido o ya es Administrador.',
+                        text: 'Por favor compruebe los datos introducidos.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
+                if (this.flag3 === false) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'La contraseña introducida no es valida.',
+                        text: 'Por favor compruebe los datos introducidos.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
+                this.flag2 = false;
+                this.flag3 = false;
             }
         },
         mounted() {
@@ -143,6 +241,6 @@
 
 <style scoped>
     .createProject {
-        padding-left: 25px;
+        padding-left: 35px;
     }
 </style>
