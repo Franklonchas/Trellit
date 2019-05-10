@@ -72,7 +72,7 @@
             </mdb-row>
         </mdb-container>
         <br>
-        
+
         <h1 style="text-align: center">Proyectos en curso</h1>
         <mdb-container>
             <mdb-row>
@@ -91,7 +91,10 @@
                             <h5 class="blue-text"><strong>Jefe de proyecto: {{project.manager}}</strong></h5>
                             <mdb-card-text>{{project.description}}
                             </mdb-card-text>
-                            <mdb-btn color="indigo lighten-2">Ir al proyecto</mdb-btn>
+                            <mdb-btn color="#FFF">
+                                <router-link :to="'/Project/' + project.idProject">Ir al proyecto
+                                </router-link>
+                            </mdb-btn>
                         </mdb-card-body>
                     </mdb-card>
                     <br>

@@ -5,6 +5,7 @@ import Lobby from './views/Lobby';
 import Calendario from './views/calendario'
 import Admin from './views/Admin'
 import Ajustes from './views/Ajustes'
+import Project from './views/Project'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -72,9 +73,22 @@ export default new Router({
             }
         },
         {
+            path: '/Project/:id',
+            name: 'Project',
+            component: Project,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "user" || user === "admin") {
+                    return next();
+                } else {
+                    return next('/');
+                }
+            }
+        },
+        {
             path: '/*',
             name: 'name',
             component: Lobby
-        }
+        },
     ]
 })
