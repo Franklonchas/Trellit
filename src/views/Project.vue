@@ -1,17 +1,15 @@
 <template>
     <div>
-        <navbar></navbar>
         <proyectos></proyectos>
     </div>
 </template>
 
 <script>
-    import Navbar from "../components/navbar";
-    import Proyectos from "../components/proyectos";
+    import proyectos from "../components/navbar";
 
     export default {
         name: "Project",
-        components: {Proyectos, Navbar}
+        components: {proyectos}
     }
 </script>
 
