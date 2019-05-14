@@ -91,6 +91,10 @@
             datePicker
         },
         methods: {
+            parseEmail: function (email) {
+                let lel = email.split(".");
+                this.worker = lel[0] + '.' + lel[1];
+            },
             newTask: function () {
                 firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()));
 
@@ -100,6 +104,7 @@
                         if (this.arrayBD[i].email === this.worker) {
                             i = this.arrayBD.length;
                             this.flag2 = true;
+                            this.parseEmail(this.worker);
                             this.localKey = localStorage.getItem('sesion_activa');
                             for (let j = 0; j < this.arrayBD.length; j++) {
                                 if (this.arrayBD[j].idUniq === this.localKey && this.arrayBD[j].rol === 'admin'
@@ -108,19 +113,11 @@
                                     j = this.arrayBD.length;
                                     for (let k = 0; k < this.arrayProjects.length; k++) {
                                         if (this.arrayProjects[k].idProject === this.$route.params.id) {
-                                            firebase.database().ref('projects/' + this.localNameProject).set({
-                                                project: this.localNameProject,
-                                                manager: this.arrayProjects[k].manager,
-                                                idProject: this.$route.params.id,
-                                                description: this.arrayProjects[k].description,
-                                                tareas: {
-                                                    [this.nameTask]: {
-                                                        nombreTarea: this.nameTask,
-                                                        trabajador: this.worker,
-                                                        fecha: this.date,
-                                                        descripcionTarea: this.descripcion,
-                                                    }
-                                                }
+                                            firebase.database().ref('projects/' + this.localNameProject + '/tareas/').push({
+                                                nombreTarea: this.nameTask,
+                                                trabajador: this.worker,
+                                                fecha: this.date,
+                                                descripcionTarea: this.descripcion,
                                             }).then(() => {
                                                 this.$notify({
                                                     group: 'foo',
