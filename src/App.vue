@@ -1,8 +1,6 @@
 <template>
     <div id="app">
-        <keep-alive>
-            <router-view/>
-        </keep-alive>
+        <router-view/>
         <myfooter></myfooter>
         <notifications group="foo"/>
     </div>
