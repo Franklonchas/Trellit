@@ -33,7 +33,7 @@
         </div>
 
         <br><br>
-        
+
         <div class="tareas deep-blue-gradient">
             <br>
             <mdb-row>
@@ -352,6 +352,5 @@
     .tareas {
         width: 100%;
         overflow-x: auto;
-        white-space: nowrap;
     }
 </style>
