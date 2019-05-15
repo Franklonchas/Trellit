@@ -6,6 +6,7 @@ import Calendario from './views/calendario'
 import Admin from './views/Admin'
 import Ajustes from './views/Ajustes'
 import Project from './views/Project'
+import Estadistica from './views/Estadistica'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -79,6 +80,19 @@ export default new Router({
             beforeEnter: (to, from, next) => {
                 let user = auth();
                 if (user === "user" || user === "admin") {
+                    return next();
+                } else {
+                    return next('/');
+                }
+            }
+        },
+        {
+            path: '/Estadistica/:id',
+            name: 'Estadistica',
+            component: Estadistica,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "admin") {
                     return next();
                 } else {
                     return next('/');

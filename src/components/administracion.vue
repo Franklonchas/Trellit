@@ -39,17 +39,23 @@
                 </div>
             </mdb-col>
 
+            <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
+                <h3 style="text-align: center">Estadisticas de proyectos:</h3>
+                <mdb-list-group>
+                    <mdb-list-group-item v-for="project in arrayProjects" v-bind:key="project.idProject">
+                        <router-link :to="'/Estadistica/' + project.idProject">{{project.project}}
+                        </router-link>
+                        <mdb-badge color="blue" pill>{{project.idProject}}</mdb-badge>
+                    </mdb-list-group-item>
+                </mdb-list-group>
+            </mdb-col>
         </mdb-row>
     </div>
 </template>
 
 <script>
     import firebase from 'firebase'
-
-    import {
-        mdbInput, mdbBtn, mdbRow,
-        mdbCol,
-    } from 'mdbvue';
+    import {mdbInput, mdbBtn, mdbRow, mdbCol, mdbListGroup, mdbListGroupItem, mdbBadge} from 'mdbvue';
 
     export default {
         name: "administracion",
@@ -68,6 +74,7 @@
                 localPass2: '',
                 flag2: false,
                 flag3: false,
+                arrayProjects: []
             }
         },
         components: {
@@ -75,6 +82,9 @@
             mdbBtn,
             mdbRow,
             mdbCol,
+            mdbListGroup,
+            mdbListGroupItem,
+            mdbBadge
         },
         methods: {
             loadUsers: function (users) {
@@ -91,7 +101,17 @@
                     })
                 }
             },
-            loadProjects: function () {
+            loadProjects: function (projects) {
+                this.arrayProjects = [];
+
+                for (let key in projects) {
+                    this.arrayProjects.push({
+                        project: projects[key].project,
+                        manager: projects[key].manager,
+                        idProject: projects[key].idProject,
+                        description: projects[key].description,
+                    })
+                }
             },
             addProject: function () {
                 this.randomKey();
@@ -242,5 +262,11 @@
 <style scoped>
     .createProject {
         padding-left: 35px;
+    }
+
+    .d-flex>*, .d-inline-flex>* {
+        -webkit-box-flex: 1!important;
+        -ms-flex: 1 1 auto!important;
+        flex: 0 1 auto!important;
     }
 </style>
