@@ -26,16 +26,43 @@
                         <mdb-btn @click="newTask">Asignar tarea</mdb-btn>
                     </mdb-modal-footer>
                 </mdb-modal>
+                <h1 style="text-align: center">
+                    Proyecto: {{this.localNameProject}}
+                </h1>
             </mdb-container>
-            <h1 style="text-align: center">
-                Proyecto: {{this.localNameProject}}
-            </h1>
         </div>
 
-        <div class="tareas">
-
+        <br><br>
+        
+        <div class="tareas deep-blue-gradient">
+            <br>
+            <mdb-row>
+                <mdb-col v-for="task in arrayTasks" v-bind:key="task.nombreTarea" sm="3" style="padding-left: 30px;">
+                    <mdb-card wide>
+                        <mdb-view hover cascade>
+                            <a href="#">
+                                <mdb-card-image
+                                        src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
+                                        alt="Card image cap"></mdb-card-image>
+                                <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                            </a>
+                        </mdb-view>
+                        <mdb-card-body class="text-center" cascade>
+                            <mdb-card-title><img v-if="task.terminado===false"
+                                                 @click="changeState(task.nombreTarea, task.terminado)"
+                                                 src="../assets/noChecked.png">
+                                <img v-if="task.terminado===true" @click="changeState(task.nombreTarea, task.terminado)"
+                                     src="../assets/checked.png">
+                                <strong>{{task.nombreTarea}}</strong></mdb-card-title>
+                            <h5 class="blue-text"><strong>Programador: {{task.trabajador}}</strong></h5>
+                            <mdb-card-text>Descripcion: {{task.descripcionTarea}}</mdb-card-text>
+                            <mdb-card-text>Fecha de entrega: {{task.fecha}}</mdb-card-text>
+                        </mdb-card-body>
+                    </mdb-card>
+                    <br>
+                </mdb-col>
+            </mdb-row>
         </div>
-
 
     </div>
 </template>
@@ -53,7 +80,16 @@
         mdbModalBody,
         mdbModalFooter,
         mdbInput,
-        mdbModalTitle
+        mdbModalTitle,
+        mdbCard,
+        mdbCardImage,
+        mdbCardBody,
+        mdbCardTitle,
+        mdbCardText,
+        mdbView,
+        mdbMask,
+        mdbCol,
+        mdbRow,
     } from 'mdbvue';
 
     export default {
@@ -76,7 +112,10 @@
                 localKey: '',
                 flag1: false,
                 flag2: false,
-                flag3: false
+                flag3: false,
+                arrayTasks: [],
+                customTask: [],
+                customIdTask: ''
             }
         },
         components: {
@@ -88,7 +127,16 @@
             mdbModalFooter,
             mdbInput,
             mdbModalTitle,
-            datePicker
+            datePicker,
+            mdbCard,
+            mdbCardImage,
+            mdbCardBody,
+            mdbCardTitle,
+            mdbCardText,
+            mdbView,
+            mdbMask,
+            mdbCol,
+            mdbRow,
         },
         methods: {
             parseEmail: function (email) {
@@ -118,6 +166,7 @@
                                                 trabajador: this.worker,
                                                 fecha: this.date,
                                                 descripcionTarea: this.descripcion,
+                                                terminado: false
                                             }).then(() => {
                                                 this.$notify({
                                                     group: 'foo',
@@ -212,17 +261,96 @@
                         idUniq: users[key].idUniq
                     })
                 }
-            }
+            },
+            changeState: function (nombreTarea, estado) {
+                this.loadCustomTask(nombreTarea);
+                if (estado === false) {
+                    for (let i = 0; i < this.arrayTasks.length; i++) {
+                        if (this.arrayTasks[i].nombreTarea === nombreTarea) {
+                            firebase.database().ref('projects/' + this.localNameProject + '/tareas/' +
+                                this.customIdTask).set({
+                                nombreTarea: this.arrayTasks[i].nombreTarea,
+                                trabajador: this.arrayTasks[i].trabajador,
+                                fecha: this.arrayTasks[i].fecha,
+                                descripcionTarea: this.arrayTasks[i].descripcionTarea,
+                                terminado: true
+                            }).then(() => {
+                                this.$notify({
+                                    group: 'foo',
+                                    title: 'Tarea finalizada!',
+                                    text: 'El proyecto va avanzando...',
+                                    type: 'success',
+                                    position: 'top left',
+                                    duration: 3500,
+                                    speed: 1500
+                                });
+                            });
+                        }
+                    }
+                }
+                if (estado === true) {
+                    for (let i = 0; i < this.arrayTasks.length; i++) {
+                        if (this.arrayTasks[i].nombreTarea === nombreTarea) {
+                            firebase.database().ref('projects/' + this.localNameProject + '/tareas/' +
+                                this.customIdTask).set({
+                                nombreTarea: this.arrayTasks[i].nombreTarea,
+                                trabajador: this.arrayTasks[i].trabajador,
+                                fecha: this.arrayTasks[i].fecha,
+                                descripcionTarea: this.arrayTasks[i].descripcionTarea,
+                                terminado: false
+                            }).then(() => {
+                                this.$notify({
+                                    group: 'foo',
+                                    title: 'Tarea NO finalizada!',
+                                    text: 'La tarea ha sido marcada como NO finalizada',
+                                    type: 'info',
+                                    position: 'top left',
+                                    duration: 3500,
+                                    speed: 1500
+                                });
+                            });
+                        }
+                    }
+                }
+            },
+            loadCustomTask: function (nombreTareaa) {
+                this.customIdTask = '';
+                for (let i = 0; i < this.customTask.length; i++) {
+                    if (this.customTask[i].nombreTarea === nombreTareaa) {
+                        this.customIdTask = this.customTask[i].key;
+                    }
+                }
+            },
+            loadTasks: function (tasks) {
+                this.arrayTasks = [];
+                this.customTask = [];
+
+                for (let key in tasks) {
+                    this.arrayTasks.push({
+                        nombreTarea: tasks[key].nombreTarea,
+                        trabajador: tasks[key].trabajador,
+                        fecha: tasks[key].fecha,
+                        descripcionTarea: tasks[key].descripcionTarea,
+                        terminado: tasks[key].terminado
+                    });
+                    this.customTask.push({
+                        key,
+                        nombreTarea: tasks[key].nombreTarea
+                    });
+                }
+            },
         },
         mounted() {
             firebase.database().ref('projects/').on('value', snapshots => this.loadProjects(snapshots.val()));
+            firebase.database().ref('projects/' + this.localNameProject + '/tareas/').on('value', snapshots =>
+                this.loadTasks(snapshots.val()));
         }
     }
 </script>
 
 <style scoped>
     .tareas {
-        width: 30em;
+        width: 100%;
         overflow-x: auto;
         white-space: nowrap;
     }
