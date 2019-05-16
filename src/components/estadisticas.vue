@@ -1,24 +1,33 @@
 <template>
-    <div class="winter-neva-gradient">
-        <mdb-container>
-            <mdb-bar-chart :data="barChartData" :options="barChartOptions" :width="600" :height="300"></mdb-bar-chart>
+    <div class="winter-neva-gradient" style="width:100%; height:100%;">
+        <mdb-container style="display: inline-flex">
+            <div>
+                <h1>Gráficas Tareas de: {{this.localNameProject}}</h1>
+                <mdb-bar-chart :data="barChartData" :options="barChartOptions" :width="600"
+                               :height="300"></mdb-bar-chart>
+            </div>
+            <div>
+                <h1>Gráficas Globales de Trellit</h1>
+                <mdb-radar-chart :data="radarChartData" :options="radarChartOptions" :width="600"
+                                 :height="300"></mdb-radar-chart>
+            </div>
         </mdb-container>
     </div>
 </template>
 
 <script>
     import firebase from 'firebase'
-    import {mdbBarChart, mdbContainer} from 'mdbvue';
+    import {mdbBarChart, mdbContainer, mdbRadarChart} from 'mdbvue';
 
     export default {
         name: "estadisticas",
         data: function () {
             return {
                 barChartData: {
-                    labels: ["Tareas terminadas", "Tareas no terminadas", "Total tareas"],
+                    labels: ["Tareas no terminadas", "Tareas terminadas", "Total tareas"],
                     datasets: [{
                         label: 'Nº Tareas',
-                        data: [],
+                        data: [0, 0, 0],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(75, 192, 192, 0.2)',
@@ -51,6 +60,50 @@
                         }]
                     }
                 },
+                radarChartData: {
+                    labels: ["Proyectos", "Proyectos Terminados", "Usuarios", "Administradores", "Tareas globales"],
+                    datasets: [
+                        {
+                            label: "Proyectos",
+                            backgroundColor: "rgba(255, 99, 132, 0.1)",
+                            borderColor: "rgba(255, 99, 132, 1)",
+                            borderWidth: 0.7,
+                            data: [4, 0, 0, 0, 0]
+                        },
+                        {
+                            label: "Proyectos Terminados",
+                            backgroundColor: "rgba(54, 162, 235, 0.2)",
+                            borderColor: "rgba(54, 162, 235, 1)",
+                            borderWidth: 0.7,
+                            data: [0, 0, 0, 0, 0]
+                        },
+                        {
+                            label: "Usuarios",
+                            backgroundColor: "rgba(153, 102, 255, 0.2)",
+                            borderColor: "rgba(153, 102, 255, 1)",
+                            borderWidth: 0.7,
+                            data: [0, 0, 4, 1, 0]
+                        },
+                        {
+                            label: "Administradores",
+                            backgroundColor: "rgba(255, 159, 64, 0.2)",
+                            borderColor: "rgba(255, 159, 64, 1)",
+                            borderWidth: 0.7,
+                            data: [0, 0, 0, 1, 0]
+                        },
+                        {
+                            label: "Tareas",
+                            backgroundColor: "rgba(255, 206, 86, 0.2)",
+                            borderColor: "rgba(255, 206, 86, 1)",
+                            borderWidth: 0.7,
+                            data: [0, 0, 0, 0, 10]
+                        }
+                    ]
+                },
+                radarChartOptions: {
+                    responsive: false,
+                    maintainAspectRatio: false
+                },
                 localNameProject: '',
                 arrayProjects: [],
                 arrayTasks: [],
@@ -61,7 +114,8 @@
         },
         components: {
             mdbBarChart,
-            mdbContainer
+            mdbContainer,
+            mdbRadarChart
         },
         methods: {
             loadProjects: function (projects) {
@@ -104,7 +158,7 @@
                 }
                 this.totalTareas = this.arrayTasks.length;
                 this.barChartData.datasets[0].data = [];
-                this.barChartData.datasets[0].data.push(this.terminadas, this.noTerminadas, this.totalTareas);
+                this.barChartData.datasets[0].data.push(this.noTerminadas, this.terminadas, this.totalTareas);
             },
         },
         mounted() {

@@ -9,7 +9,7 @@
             <mdb-navbar-nav right>
                 <mdb-nav-item router-link class="nav-link" to="/Lobby" active>Home</mdb-nav-item>
                 <mdb-nav-item router-link class="nav-link" to="/Calendario">Calendario</mdb-nav-item>
-                <mdb-nav-item router-link class="nav-link" to="#">Disabled</mdb-nav-item>
+                <mdb-nav-item router-link class="nav-link" to="/conversacion">Chats</mdb-nav-item>
                 <mdb-dropdown tag="li" class="nav-item">
                     <mdb-dropdown-toggle tag="a" navLink color="indigo" slot="toggle" waves-fixed>Perfil
                     </mdb-dropdown-toggle>

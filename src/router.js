@@ -7,6 +7,7 @@ import Admin from './views/Admin'
 import Ajustes from './views/Ajustes'
 import Project from './views/Project'
 import Estadistica from './views/Estadistica'
+import conversacion from './views/conversacion'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -93,6 +94,19 @@ export default new Router({
             beforeEnter: (to, from, next) => {
                 let user = auth();
                 if (user === "admin") {
+                    return next();
+                } else {
+                    return next('/');
+                }
+            }
+        },
+        {
+            path: '/conversacion',
+            name: 'conversacion',
+            component: conversacion,
+            beforeEnter: (to, from, next) => {
+                let user = auth();
+                if (user === "user" || user === "admin") {
                     return next();
                 } else {
                     return next('/');
