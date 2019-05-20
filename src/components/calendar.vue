@@ -1,53 +1,279 @@
 <template>
     <div id="cal">
-        <h1 style="text-align: center">Roadmap Global</h1>
-        <br>
-        <calendar-view
-                :show-date="showDate"
-                :startingDayOfWeek="1"
-                class="theme-default holiday-us-traditional holiday-us-official">
-            <calendar-view-header
-                    slot="header"
-                    slot-scope="t"
-                    :header-props="t.headerProps"
-                    @input="setShowDate"/>
-        </calendar-view>
-        <br><br>
+        <div class="calendar-controls">
+            <div v-if="message" class="notification is-success">{{ message }}</div>
+
+            <div class="box">
+                <div class="field">
+                    <label class="label">Title</label>
+                    <div class="control">
+                        <input v-model="newEventTitle" class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Start date</label>
+                    <div class="control">
+                        <input v-model="newEventStartDate" class="input" type="date">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">End date</label>
+                    <div class="control">
+                        <input v-model="newEventEndDate" class="input" type="date">
+                    </div>
+                </div>
+
+                <button class="button is-info" @click="clickTestAddEvent">Add Event</button>
+            </div>
+        </div>
+        <div class="calendar-parent">
+            <calendar-view
+                    :events="events"
+                    :show-date="showDate"
+                    :startingDayOfWeek="1"
+                    :time-format-options="{hour: 'numeric', minute:'2-digit'}"
+                    :enable-drag-drop="true"
+                    :disable-past="disablePast"
+                    :disable-future="disableFuture"
+                    :show-event-times="showEventTimes"
+                    :display-period-uom="displayPeriodUom"
+                    :display-period-count="displayPeriodCount"
+                    :starting-day-of-week="startingDayOfWeek"
+                    :class="themeClasses"
+                    :period-changed-callback="periodChanged"
+                    :current-period-label="useTodayIcons ? 'icons' : ''"
+                    @drop-on-date="onDrop"
+                    @click-date="onClickDay"
+                    @click-event="onClickEvent">
+                <calendar-view-header
+                        slot="header"
+                        slot-scope="{ headerProps }"
+                        :header-props="headerProps"
+                        @input="setShowDate"/>
+            </calendar-view>
+        </div>
     </div>
 </template>
-
 <script>
-    import {CalendarView, CalendarViewHeader} from "vue-simple-calendar"
+
     require("vue-simple-calendar/static/css/default.css");
     require("vue-simple-calendar/static/css/holidays-us.css");
 
+    import {
+        CalendarView,
+        CalendarViewHeader,
+        CalendarMathMixin,
+    } from "vue-simple-calendar"
+
     export default {
-        name: "calendar",
-        data: function () {
-            return {
-                showDate: new Date(),
-            }
-        },
+        name: "App",
         components: {
             CalendarView,
             CalendarViewHeader,
         },
-        methods: {
-            setShowDate(d) {
-                this.showDate = d;
+        mixins: [CalendarMathMixin],
+        data() {
+            return {
+                showDate: this.thisMonth(1),
+                message: "",
+                startingDayOfWeek: 0,
+                disablePast: false,
+                disableFuture: false,
+                displayPeriodUom: "month",
+                displayPeriodCount: 1,
+                showEventTimes: true,
+                newEventTitle: "",
+                newEventStartDate: "",
+                newEventEndDate: "",
+                useDefaultTheme: true,
+                useHolidayTheme: true,
+                useTodayIcons: false,
+                events: [
+                    {
+                        id: "e0",
+                        startDate: "2018-01-05",
+                    },
+                    {
+                        id: "e1",
+                        startDate: this.thisMonth(15, 18, 30),
+                    },
+                    {
+                        id: "e2",
+                        startDate: this.thisMonth(15),
+                        title: "Single-day event with a long title",
+                    },
+                    {
+                        id: "e3",
+                        startDate: this.thisMonth(7, 9, 25),
+                        endDate: this.thisMonth(10, 16, 30),
+                        title: "Multi-day event with a long title and times",
+                    },
+                    {
+                        id: "e4",
+                        startDate: this.thisMonth(20),
+                        title: "My Birthday!",
+                        classes: "birthday",
+                        url: "https://en.wikipedia.org/wiki/Birthday",
+                    },
+                    {
+                        id: "e5",
+                        startDate: this.thisMonth(5),
+                        endDate: this.thisMonth(12),
+                        title: "Multi-day event",
+                        classes: "purple",
+                    },
+                    {
+                        id: "foo",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 1",
+                    },
+                    {
+                        id: "e6",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 2",
+                        classes: "orange",
+                    },
+                    {
+                        id: "e7",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 3",
+                    },
+                    {
+                        id: "e8",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 4",
+                        classes: "orange",
+                    },
+                    {
+                        id: "e9",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 5",
+                    },
+                    {
+                        id: "e10",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 6",
+                        classes: "orange",
+                    },
+                    {
+                        id: "e11",
+                        startDate: this.thisMonth(29),
+                        title: "Same day 7",
+                    },
+                ],
+            }
+        },
+        computed: {
+            userLocale() {
+                return this.getDefaultBrowserLocale
+            },
+            dayNames() {
+                return this.getFormattedWeekdayNames(this.userLocale, "long", 0)
+            },
+            themeClasses() {
+                return {
+                    "theme-default": this.useDefaultTheme,
+                    "holiday-us-traditional": this.useHolidayTheme,
+                    "holiday-us-official": this.useHolidayTheme,
+                }
             },
         },
-        props: {}
+        mounted() {
+            this.newEventStartDate = this.isoYearMonthDay(this.today())
+            this.newEventEndDate = this.isoYearMonthDay(this.today())
+        },
+        methods: {
+            periodChanged(range, eventSource) {
+                //console.log(eventSource);
+                //console.log(range);
+            },
+            thisMonth(d, h, m) {
+                const t = new Date();
+                return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
+            },
+            onClickDay(d) {
+                this.message = `You clicked: ${d.toLocaleDateString()}`
+            },
+            onClickEvent(e) {
+                this.message = `You clicked: ${e.title}`
+            },
+            setShowDate(d) {
+                this.message = `Changing calendar view to ${d.toLocaleDateString()}`
+                this.showDate = d
+            },
+            onDrop(event, date) {
+                this.message = `You dropped ${event.id} on ${date.toLocaleDateString()}`
+                const eLength = this.dayDiff(event.startDate, date);
+                event.originalEvent.startDate = this.addDays(event.startDate, eLength);
+                event.originalEvent.endDate = this.addDays(event.endDate, eLength)
+            },
+            clickTestAddEvent() {
+                //Aqui se añaden las tareas
+                this.events.push({
+                    startDate: this.newEventStartDate,
+                    endDate: this.newEventEndDate,
+                    title: this.newEventTitle,
+                    id:
+                        "e" +
+                        Math.random()
+                            .toString(36)
+                            .substr(2, 10),
+                });
+                this.message = "You added an event!"
+            },
+        },
     }
 </script>
 
-<style scoped>
+<style>
+
     #cal {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        color: #2c3e50;
-        height: auto;
-        width: 90vw;
+        display: flex;
+        flex-direction: row;
+        font-family: Calibri, sans-serif;
+        width: 100vw;
+        min-width: 35rem;
+        max-width: 105rem;
+        min-height: 45rem;
         margin-left: auto;
         margin-right: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 30px;
+    }
+
+
+    .calendar-controls {
+        margin-right: 1rem;
+        min-width: 14rem;
+        max-width: 14rem;
+    }
+
+    .calendar-parent {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        max-height: 80vh;
+        background-color: white;
+    }
+
+    .cv-wrapper.period-month.periodCount-2 .cv-week,
+    .cv-wrapper.period-month.periodCount-3 .cv-week,
+    .cv-wrapper.period-year .cv-week {
+        min-height: 6rem;
+    }
+
+    .theme-default .cv-event.birthday {
+        background-color: #e0f0e0;
+        border-color: #d7e7d7;
+    }
+
+    .theme-default .cv-event.birthday::before {
+        content: "\1F382";
+        margin-right: 0.5em;
     }
 </style>
