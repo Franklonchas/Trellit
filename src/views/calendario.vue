@@ -1,7 +1,7 @@
 <template>
     <div class="calendario">
-        <Calendar></Calendar>
         <Navbar></Navbar>
+        <Calendar></Calendar>
     </div>
 </template>
 
