@@ -2,21 +2,46 @@
     <div class="winter-neva-gradient">
         <div>
             <div v-for="mensajes in arrayMensajes" v-bind:key="mensajes.fecha">
-                <div>
-                    Autor: {{mensajes.autor}}
-                    Contenido: {{mensajes.mensaje}}
-                    comprobacion: {{mensajes.local}}
+
+                <div v-if="mensajes.local===true" class="chat-body local-true white p-3 ml-2 z-depth-1">
+                    <div class="header">
+                        <strong class="primary-font">{{mensajes.autor}}</strong>
+                        <small class="pull-right text-muted">
+                            <mdb-icon far icon="clock"/>
+                            {{mensajes.fecha}}
+                        </small>
+                    </div>
+                    <hr class="w-100">
+                    <p class="mb-0">
+                        {{mensajes.mensaje}}
+                    </p>
                 </div>
+
+                <div v-if="mensajes.local===false" class="chat-body local-false white p-3 ml-2 z-depth-1">
+                    <div class="header">
+                        <strong class="primary-font">{{mensajes.autor}}   </strong>
+                        <small class="pull-right text-muted">
+                            <mdb-icon far icon="clock"/>
+                            {{mensajes.fecha}}
+                        </small>
+                    </div>
+                    <hr class="w-100">
+                    <p class="mb-0">
+                        {{mensajes.mensaje}}
+                    </p>
+                </div>
+                <br>
+
             </div>
         </div>
-        <label>
-            <input v-model="localMensaje" type="text">
-        </label>
-        <button type="button" @click="addMessage">LOCOOO</button>
+        <br><br><br>
+        <mdb-input v-model="localMensaje" type="text" label="Escriba su mensaje..." icon="comment"/>
+        <mdb-btn @click="addMessage" color="indigo">Enviar</mdb-btn>
     </div>
 </template>
 
 <script>
+    import {mdbInput, mdbBtn, mdbIcon} from 'mdbvue';
     import firebase from 'firebase'
 
     export default {
@@ -29,6 +54,11 @@
                 localUser: '',
                 loadMessage: ''
             }
+        },
+        components: {
+            mdbInput,
+            mdbBtn,
+            mdbIcon
         },
         methods: {
             loadChats: function (mensajes) {
@@ -57,6 +87,8 @@
                 }
             },
             pasrseUser: function (user) {
+                this.localUser = '';
+                this.localAutor = [];
                 for (let i = 21; i < user.length; i++) {
                     this.localAutor += user[i];
                 }
@@ -68,13 +100,27 @@
                 let today = new Date();
                 let user = localStorage.getItem('sesion_activa');
                 this.pasrseUser(user);
-                firebase.database().ref('chat/').push({
-                    mensaje: this.localMensaje,
-                    autor: this.localAutor[0],
-                    fecha: today.toLocaleDateString("es-ES") + " " + today.getHours() + ":" + today.getMinutes()
-                        + ":" + today.getSeconds(),
-                    usuario: this.localUser
-                });
+                if (this.localMensaje !== '') {
+                    firebase.database().ref('chat/').push({
+                        mensaje: this.localMensaje,
+                        autor: this.localAutor[0],
+                        fecha: today.toLocaleDateString("es-ES") + " " + today.getHours() + ":" + today.getMinutes()
+                            + ":" + today.getSeconds(),
+                        usuario: this.localUser
+                    });
+                }
+                if (this.localMensaje === '') {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Campo mensaje vacio',
+                        text: 'Compruebe por favor los datos introducidos.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
+                this.localMensaje = '';
             },
             parseUser2: function () {
                 let user = localStorage.getItem('sesion_activa');
@@ -92,5 +138,14 @@
 </script>
 
 <style scoped>
+    .local-true {
+        max-width: 350px;
+        vertical-align: top;
+        float: right;
+    }
 
+    .local-false {
+        max-width: 350px;
+        vertical-align: top;
+    }
 </style>
