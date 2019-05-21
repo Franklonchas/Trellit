@@ -9,8 +9,8 @@
                 :isOpen="isChatOpen"
                 :close="closeChat"
                 :open="openChat"
-                :showEmoji="true"
-                :showFile="true"
+                :showEmoji="false"
+                :showFile="false"
                 :showTypingIndicator="showTypingIndicator"
                 :colors="colors"
                 :alwaysScrollToBottom="alwaysScrollToBottom"
@@ -20,30 +20,19 @@
 </template>
 
 <script>
+    import firebase from 'firebase'
+
     export default {
         name: 'chatroom',
         data() {
             return {
-                participants: [
-                    {
-                        id: 'user1',
-                        name: 'Matteo',
-                        imageUrl: 'https://avatars3.githubusercontent.com/u/1915989?s=230&v=4'
-                    },
-                    {
-                        id: 'user2',
-                        name: 'Support',
-                        imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
-                    }
-                ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
+                participants: [],
                 titleImageUrl: 'https://a.slack-edge.com/66f9/img/avatars-teams/ava_0001-34.png',
-                messageList: [
-                    {type: 'text', author: `me`, data: {text: `Say yes!`}},
-                    {type: 'text', author: `user1`, data: {text: `No.`}}
-                ], // the list of the messages to show, can be paginated and adjusted dynamically
+                messageList: [],
                 newMessagesCount: 0,
-                isChatOpen: false, // to determine whether the chat window should be open or closed
-                showTypingIndicator: '', // when set to a value matching the participant.id it shows the typing indicator for the specific user
+                isChatOpen: false,
+                showTypingIndicator: '',
+                localNameMe: '',
                 colors: {
                     header: {
                         bg: '#4e8cff',
@@ -67,39 +56,89 @@
                         bg: '#f4f7f9',
                         text: '#565867'
                     }
-                }, // specifies the color scheme for the component
-                alwaysScrollToBottom: false, // when set to true always scrolls the chat to the bottom when new events are in (new message, user starts typing...)
-                messageStyling: true // enables *bold* /emph/ _underline_ and such (more info at github.com/mattezza/msgdown)
+                },
+                alwaysScrollToBottom: false,
+                messageStyling: true,
             }
         },
         methods: {
             sendMessage(text) {
                 if (text.length > 0) {
-                    this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
+                    this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1;
                     this.onMessageWasSent({author: 'support', type: 'text', data: {text}})
                 }
             },
             onMessageWasSent(message) {
-                // called when the user sends a message
-                this.messageList = [...this.messageList, message]
+                firebase.database().ref('chatroom/' + this.$route.params.id).push({
+                    author: this.localNameMe,
+                    text: message.data.text,
+                }).then(() => {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Mensaje enviado.',
+                        text: '',
+                        type: 'success',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                });
+                //this.messageList = [...this.messageList, message]
             },
             openChat() {
                 // called when the user clicks on the fab button to open the chat
-                this.isChatOpen = true
-                this.newMessagesCount = 0
+                this.isChatOpen = true;
+                this.newMessagesCount = 0;
             },
             closeChat() {
-                // called when the user clicks on the botton to close the chat
-                this.isChatOpen = false
+                this.isChatOpen = false;
             },
             handleScrollToTop() {
-                // called when the user scrolls message list to top
-                // leverage pagination for loading another page of messages
             },
             handleOnType() {
-                console.log('Emit typing event')
+                //console.log('Emit typing event');
+            },
+            loadMessages: function (message) {
+                this.messageList = [];
+                this.getLocalName();
+                for (let key in message) {
+                    if (this.localNameMe === message[key].author) {
+                        this.messageList.push({
+                            type: 'text',
+                            author: 'me',
+                            data: {
+                                text: 'Yo: ' + message[key].text,
+                            }
+                        })
+                    } else if (this.localNameMe !== message[key].author) {
+                        this.messageList.push({
+                            type: 'text',
+                            author: message[key].author,
+                            data: {
+                                text: message[key].author + ': ' + message[key].text,
+                            }
+                        })
+                    }
+                }
+                console.log(this.messageList);
+                return this.messageList;
+            },
+            getLocalName: function () {
+                this.localNameMe = '';
+                let localName;
+                localName = localStorage.getItem('sesion_activa');
+
+                for (let i = 21; i < localName.length; i++) {
+                    this.localNameMe += localName[i];
+                }
+                return this.localNameMe;
             }
+        },
+        mounted() {
+            firebase.database().ref('chatroom/' + this.$route.params.id).on('value', snapshots => this.loadMessages(snapshots.val()));
+            this.getLocalName();
         }
+    }
 </script>
 
 <style scoped>

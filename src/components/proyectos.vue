@@ -63,7 +63,7 @@
                 </mdb-col>
             </mdb-row>
         </div>
-
+        <chatroom></chatroom>
     </div>
 </template>
 
@@ -91,6 +91,7 @@
         mdbCol,
         mdbRow,
     } from 'mdbvue';
+    import Chatroom from "./chatroom";
 
     export default {
         name: "proyectos",
@@ -119,6 +120,7 @@
             }
         },
         components: {
+            Chatroom,
             mdbContainer,
             mdbBtn,
             mdbModal,
