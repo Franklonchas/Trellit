@@ -130,10 +130,46 @@
                 this.showDate = d
             },
             onDrop(event, date) {
-                this.message = `You dropped ${event.id} on ${date.toLocaleDateString()}`
+                this.message = `Has modificado ${event.title} a ${date.toLocaleDateString()}`
                 const eLength = this.dayDiff(event.startDate, date);
                 event.originalEvent.startDate = this.addDays(event.startDate, eLength);
-                event.originalEvent.endDate = this.addDays(event.endDate, eLength)
+                event.originalEvent.endDate = this.addDays(event.endDate, eLength);
+
+                let month1 = event.originalEvent.startDate.getUTCMonth() + 1; //months from 1-12
+                let day1 = event.originalEvent.startDate.getUTCDate();
+                let year1 = event.originalEvent.startDate.getUTCFullYear();
+
+                let newdate = year1 + "/" + month1 + "/" + day1;
+
+                let month2 = event.originalEvent.endDate.getUTCMonth() + 1; //months from 1-12
+                let day2 = event.originalEvent.endDate.getUTCDate();
+                let year2 = event.originalEvent.endDate.getUTCFullYear();
+
+                let newdate2 = year2 + "/" + month2 + "/" + day2;
+
+
+                for (let i = 0; i < this.events.length; i++) {
+                    if (this.events[i].id === event.id) {
+                        firebase.database().ref('calendar/' + this.events[i].clave).set({
+                            startDate: newdate,
+                            endDate: newdate2,
+                            title: this.events[i].title,
+                            id: this.events[i].id,
+                            classes: this.events[i].classes
+                        }).then(() => {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Evento cambiado!',
+                                text: 'Compruebe su agenda',
+                                type: 'success',
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
+                            });
+                        });
+                        i = this.events.length;
+                    }
+                }
             },
             clickTestAddEvent() {
                 //Aqui se añaden las tareas
@@ -166,6 +202,7 @@
                 return this.colorsList[random];
             },
             loadCalendar: function (cal) {
+                // classes: birthday
                 this.events = [];
 
                 for (let key in cal) {
@@ -175,6 +212,7 @@
                         title: cal[key].title,
                         id: cal[key].id,
                         classes: cal[key].classes,
+                        clave: key
                     })
                 }
             }

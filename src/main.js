@@ -10,7 +10,9 @@ import router from './router'
 import Notifications from 'vue-notification'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import Chat from 'vue-beautiful-chat'
 
+Vue.use(Chat);
 Vue.config.productionTip = false;
 Vue.use(Notifications);
 Vue.use(Vuetify);
