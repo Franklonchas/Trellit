@@ -57,15 +57,11 @@
     </div>
 </template>
 <script>
+    import firebase from 'firebase'
 
     require("vue-simple-calendar/static/css/default.css");
     require("vue-simple-calendar/static/css/holidays-us.css");
-
-    import {
-        CalendarView,
-        CalendarViewHeader,
-        CalendarMathMixin,
-    } from "vue-simple-calendar"
+    import {CalendarView, CalendarViewHeader, CalendarMathMixin,} from "vue-simple-calendar"
 
     export default {
         name: "App",
@@ -90,79 +86,8 @@
                 useDefaultTheme: true,
                 useHolidayTheme: true,
                 useTodayIcons: false,
-                events: [
-                    {
-                        id: "e0",
-                        startDate: "2018-01-05",
-                    },
-                    {
-                        id: "e1",
-                        startDate: this.thisMonth(15, 18, 30),
-                    },
-                    {
-                        id: "e2",
-                        startDate: this.thisMonth(15),
-                        title: "Single-day event with a long title",
-                    },
-                    {
-                        id: "e3",
-                        startDate: this.thisMonth(7, 9, 25),
-                        endDate: this.thisMonth(10, 16, 30),
-                        title: "Multi-day event with a long title and times",
-                    },
-                    {
-                        id: "e4",
-                        startDate: this.thisMonth(20),
-                        title: "My Birthday!",
-                        classes: "birthday",
-                        url: "https://en.wikipedia.org/wiki/Birthday",
-                    },
-                    {
-                        id: "e5",
-                        startDate: this.thisMonth(5),
-                        endDate: this.thisMonth(12),
-                        title: "Multi-day event",
-                        classes: "purple",
-                    },
-                    {
-                        id: "foo",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 1",
-                    },
-                    {
-                        id: "e6",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 2",
-                        classes: "orange",
-                    },
-                    {
-                        id: "e7",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 3",
-                    },
-                    {
-                        id: "e8",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 4",
-                        classes: "orange",
-                    },
-                    {
-                        id: "e9",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 5",
-                    },
-                    {
-                        id: "e10",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 6",
-                        classes: "orange",
-                    },
-                    {
-                        id: "e11",
-                        startDate: this.thisMonth(29),
-                        title: "Same day 7",
-                    },
-                ],
+                colorsList: [],
+                events: [],
             }
         },
         computed: {
@@ -181,8 +106,9 @@
             },
         },
         mounted() {
-            this.newEventStartDate = this.isoYearMonthDay(this.today())
-            this.newEventEndDate = this.isoYearMonthDay(this.today())
+            this.newEventStartDate = this.isoYearMonthDay(this.today());
+            this.newEventEndDate = this.isoYearMonthDay(this.today());
+            firebase.database().ref('calendar/').on('value', snapshots => this.loadCalendar(snapshots.val()));
         },
         methods: {
             periodChanged(range, eventSource) {
@@ -211,7 +137,7 @@
             },
             clickTestAddEvent() {
                 //Aqui se añaden las tareas
-                this.events.push({
+                firebase.database().ref('calendar/').push({
                     startDate: this.newEventStartDate,
                     endDate: this.newEventEndDate,
                     title: this.newEventTitle,
@@ -220,9 +146,38 @@
                         Math.random()
                             .toString(36)
                             .substr(2, 10),
+                    classes: this.colorRandom(),
+                }).then(() => {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Evento añadido al calendario!',
+                        text: 'Compruebe la agenda',
+                        type: 'success',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
                 });
-                this.message = "You added an event!"
             },
+            colorRandom: function () {
+                let random;
+                this.colorsList = ['purple', 'green', 'red', 'blue', 'yellow', 'grey', 'orange', 'brown'];
+                random = Math.floor(Math.random() * this.colorsList.length);
+                return this.colorsList[random];
+            },
+            loadCalendar: function (cal) {
+                this.events = [];
+
+                for (let key in cal) {
+                    this.events.push({
+                        startDate: cal[key].startDate,
+                        endDate: cal[key].endDate,
+                        title: cal[key].title,
+                        id: cal[key].id,
+                        classes: cal[key].classes,
+                    })
+                }
+            }
         },
     }
 </script>

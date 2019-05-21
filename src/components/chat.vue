@@ -1,40 +1,45 @@
 <template>
     <div class="winter-neva-gradient">
-        <div>
+        <div class="chat-global">
             <div v-for="mensajes in arrayMensajes" v-bind:key="mensajes.fecha">
-
-                <div v-if="mensajes.local===true" class="chat-body local-true white p-3 ml-2 z-depth-1">
-                    <div class="header">
-                        <strong class="primary-font">{{mensajes.autor}}</strong>
-                        <small class="pull-right text-muted">
-                            <mdb-icon far icon="clock"/>
-                            {{mensajes.fecha}}
-                        </small>
+                <div class="row">
+                    <div class="col-sm-12 lel">
+                        <div v-if="mensajes.local===true" class="chat-body local-true white p-3 ml-2 z-depth-1">
+                            <div class="header">
+                                <strong class="primary-font">{{mensajes.autor}}</strong>
+                                <small class="pull-right text-muted">
+                                    <mdb-icon far icon="clock"/>
+                                    {{mensajes.fecha}}
+                                </small>
+                            </div>
+                            <hr class="w-100">
+                            <p class="mb-0">
+                                {{mensajes.mensaje}}
+                            </p>
+                        </div>
                     </div>
-                    <hr class="w-100">
-                    <p class="mb-0">
-                        {{mensajes.mensaje}}
-                    </p>
                 </div>
 
-                <div v-if="mensajes.local===false" class="chat-body local-false white p-3 ml-2 z-depth-1">
-                    <div class="header">
-                        <strong class="primary-font">{{mensajes.autor}}   </strong>
-                        <small class="pull-right text-muted">
-                            <mdb-icon far icon="clock"/>
-                            {{mensajes.fecha}}
-                        </small>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div v-if="mensajes.local===false" class="chat-body local-false white p-3 ml-2 z-depth-1">
+                            <div class="header">
+                                <strong class="primary-font">{{mensajes.autor}}  </strong>
+                                <small class="pull-right text-muted">
+                                    <mdb-icon far icon="clock"/>
+                                    {{mensajes.fecha}}
+                                </small>
+                            </div>
+                            <hr class="w-100">
+                            <p class="mb-0">
+                                {{mensajes.mensaje}}
+                            </p>
+                        </div>
                     </div>
-                    <hr class="w-100">
-                    <p class="mb-0">
-                        {{mensajes.mensaje}}
-                    </p>
                 </div>
-                <br>
-
             </div>
         </div>
-        <br><br><br>
+
         <mdb-input v-model="localMensaje" type="text" label="Escriba su mensaje..." icon="comment"/>
         <mdb-btn @click="addMessage" color="indigo">Enviar</mdb-btn>
     </div>
@@ -138,10 +143,19 @@
 </script>
 
 <style scoped>
-    .local-true {
+    .chat-global{
+
+    }
+
+    .local-true{
         max-width: 350px;
         vertical-align: top;
         float: right;
+        background-color: #E1FFC7!important;
+    }
+    .lel{
+        padding-top: 15px;
+        padding-right: 20px;
     }
 
     .local-false {
