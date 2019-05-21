@@ -1,58 +1,80 @@
 <template>
-    <div id="cal">
-        <div class="calendar-controls">
+    <div class="winter-neva-gradient">
+
+        <mdb-container style="display: inline-flex">
             <div v-if="message" class="notification is-success">{{ message }}</div>
-
-            <div class="box">
-                <div class="field">
-                    <label class="label">Title</label>
-                    <div class="control">
-                        <input v-model="newEventTitle" class="input" type="text">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label">Start date</label>
-                    <div class="control">
-                        <input v-model="newEventStartDate" class="input" type="date">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label">End date</label>
-                    <div class="control">
-                        <input v-model="newEventEndDate" class="input" type="date">
-                    </div>
-                </div>
-
-                <button class="button is-info" @click="clickTestAddEvent">Add Event</button>
+            <div v-if="modifyEvent">
+                <mdb-btn rounded color="default" @click="removeEve">Eliminar</mdb-btn>
+                <mdb-btn rounded color="default" @click="setTrue">Modificar</mdb-btn>
+                <mdb-modal :show="login2" @close="login2 = false">
+                    <mdb-modal-header class="text-center">
+                        <mdb-modal-title class="w-100" tag="h4" bold>
+                            Modificar evento de Roadmap
+                        </mdb-modal-title>
+                    </mdb-modal-header>
+                    <mdb-modal-body class="mx-3 grey-text">
+                        <mdb-input v-model="newEventTitle" label="Nuevo nombre..." icon="edit" type="text" class="mb-5"/>
+                        <p>Seleccione una fecha de inicio:</p>
+                        <date-picker v-model="date1" :config="options"></date-picker>
+                        <br>
+                        <p>Seleccione una fecha de finalización:</p>
+                        <date-picker v-model="date2" :config="options"></date-picker>
+                        <br>
+                    </mdb-modal-body>
+                    <mdb-modal-footer center>
+                        <mdb-btn @click="modifyEve">Modificar Evento</mdb-btn>
+                    </mdb-modal-footer>
+                </mdb-modal>
             </div>
-        </div>
-        <div class="calendar-parent">
-            <calendar-view
-                    :events="events"
-                    :show-date="showDate"
-                    :startingDayOfWeek="1"
-                    :time-format-options="{hour: 'numeric', minute:'2-digit'}"
-                    :enable-drag-drop="true"
-                    :disable-past="disablePast"
-                    :disable-future="disableFuture"
-                    :show-event-times="showEventTimes"
-                    :display-period-uom="displayPeriodUom"
-                    :display-period-count="displayPeriodCount"
-                    :starting-day-of-week="startingDayOfWeek"
-                    :class="themeClasses"
-                    :period-changed-callback="periodChanged"
-                    :current-period-label="useTodayIcons ? 'icons' : ''"
-                    @drop-on-date="onDrop"
-                    @click-date="onClickDay"
-                    @click-event="onClickEvent">
-                <calendar-view-header
-                        slot="header"
-                        slot-scope="{ headerProps }"
-                        :header-props="headerProps"
-                        @input="setShowDate"/>
-            </calendar-view>
+            <mdb-btn rounded color="default" @click="login=true">Añadir tarea</mdb-btn>
+            <mdb-modal :show="login" @close="login = false">
+                <mdb-modal-header class="text-center">
+                    <mdb-modal-title class="w-100" tag="h4" bold>
+                        Añadir evento a Roadmap
+                    </mdb-modal-title>
+                </mdb-modal-header>
+                <mdb-modal-body class="mx-3 grey-text">
+                    <mdb-input v-model="newEventTitle" label="Evento..." icon="edit" type="text" class="mb-5"/>
+                    <p>Seleccione una fecha de inicio:</p>
+                    <date-picker v-model="date1" :config="options"></date-picker>
+                    <br>
+                    <p>Seleccione una fecha de finalización:</p>
+                    <date-picker v-model="date2" :config="options"></date-picker>
+                    <br>
+                </mdb-modal-body>
+                <mdb-modal-footer center>
+                    <mdb-btn @click="clickTestAddEvent">Añadr tarea</mdb-btn>
+                </mdb-modal-footer>
+            </mdb-modal>
+        </mdb-container>
+
+        <div id="cal">
+            <div class="calendar-parent">
+                <calendar-view
+                        :events="events"
+                        :show-date="showDate"
+                        :startingDayOfWeek="1"
+                        :time-format-options="{hour: 'numeric', minute:'2-digit'}"
+                        :enable-drag-drop="true"
+                        :disable-past="disablePast"
+                        :disable-future="disableFuture"
+                        :show-event-times="showEventTimes"
+                        :display-period-uom="displayPeriodUom"
+                        :display-period-count="displayPeriodCount"
+                        :starting-day-of-week="startingDayOfWeek"
+                        :class="themeClasses"
+                        :period-changed-callback="periodChanged"
+                        :current-period-label="useTodayIcons ? 'icons' : ''"
+                        @drop-on-date="onDrop"
+                        @click-date="onClickDay"
+                        @click-event="onClickEvent">
+                    <calendar-view-header
+                            slot="header"
+                            slot-scope="{ headerProps }"
+                            :header-props="headerProps"
+                            @input="setShowDate"/>
+                </calendar-view>
+            </div>
         </div>
     </div>
 </template>
@@ -61,13 +83,33 @@
 
     require("vue-simple-calendar/static/css/default.css");
     require("vue-simple-calendar/static/css/holidays-us.css");
-    import {CalendarView, CalendarViewHeader, CalendarMathMixin,} from "vue-simple-calendar"
+    import {CalendarView, CalendarViewHeader, CalendarMathMixin} from "vue-simple-calendar"
+    import DatePicker from "vue-bootstrap-datetimepicker/src/component";
+    import {
+        mdbContainer,
+        mdbBtn,
+        mdbModal,
+        mdbModalHeader,
+        mdbModalBody,
+        mdbModalFooter,
+        mdbInput,
+        mdbModalTitle,
+    } from 'mdbvue';
 
     export default {
         name: "App",
         components: {
+            DatePicker,
             CalendarView,
             CalendarViewHeader,
+            mdbContainer,
+            mdbBtn,
+            mdbModal,
+            mdbModalHeader,
+            mdbModalBody,
+            mdbModalFooter,
+            mdbInput,
+            mdbModalTitle,
         },
         mixins: [CalendarMathMixin],
         data() {
@@ -88,6 +130,16 @@
                 useTodayIcons: false,
                 colorsList: [],
                 events: [],
+                date1: new Date(),
+                date2: new Date(),
+                options: {
+                    format: 'YYYY/MM/DD',
+                    useCurrent: true,
+                },
+                login: false,
+                login2: false,
+                modifyEvent: false,
+                localEvento: '',
             }
         },
         computed: {
@@ -115,21 +167,74 @@
                 //console.log(eventSource);
                 //console.log(range);
             },
+            removeEve: function () {
+                for (let i = 0; this.events.length; i++) {
+                    if (this.events[i].id === this.localEvento) {
+                        firebase.database().ref('calendar/' + this.events[i].clave).remove().then(() => {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Evento Eliminado.',
+                                text: 'Compruebe su agenda',
+                                type: 'warning',
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
+                            });
+                        });
+                        i = this.events.length;
+                    }
+                }
+            },
+            setTrue: function () {
+                this.login2 = true;
+            },
+            modifyEve: function () {
+
+                for (let i = 0; this.events.length; i++) {
+                    if (this.events[i].id === this.localEvento) {
+                        firebase.database().ref('calendar/' + this.events[i].clave).set({
+                            startDate: this.date1,
+                            endDate: this.date2,
+                            title: this.newEventTitle,
+                            id: this.events[i].id,
+                            classes: this.events[i].classes
+                        }).then(() => {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Evento modificado!',
+                                text: 'Compruebe su agenda',
+                                type: 'success',
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
+                            });
+                        });
+                        i = this.events.length;
+                        this.newEventTitle = '';
+                        this.login2 = false;
+                    }
+                }
+            },
             thisMonth(d, h, m) {
                 const t = new Date();
                 return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
             },
             onClickDay(d) {
-                this.message = `You clicked: ${d.toLocaleDateString()}`
+                this.message = `Has seleccionado: ${d.toLocaleDateString()}`
+                this.modifyEvent = false;
             },
             onClickEvent(e) {
                 this.message = `You clicked: ${e.title}`
+                this.localEvento = e.id;
+                this.modifyEvent = true;
             },
             setShowDate(d) {
-                this.message = `Changing calendar view to ${d.toLocaleDateString()}`
+                this.modifyEvent = false;
+                this.message = `Has cambiado a: ${d.toLocaleDateString()}`
                 this.showDate = d
             },
             onDrop(event, date) {
+                this.modifyEvent = false;
                 this.message = `Has modificado ${event.title} a ${date.toLocaleDateString()}`
                 const eLength = this.dayDiff(event.startDate, date);
                 event.originalEvent.startDate = this.addDays(event.startDate, eLength);
@@ -146,7 +251,6 @@
                 let year2 = event.originalEvent.endDate.getUTCFullYear();
 
                 let newdate2 = year2 + "/" + month2 + "/" + day2;
-
 
                 for (let i = 0; i < this.events.length; i++) {
                     if (this.events[i].id === event.id) {
@@ -174,8 +278,8 @@
             clickTestAddEvent() {
                 //Aqui se añaden las tareas
                 firebase.database().ref('calendar/').push({
-                    startDate: this.newEventStartDate,
-                    endDate: this.newEventEndDate,
+                    startDate: this.date1,
+                    endDate: this.date2,
                     title: this.newEventTitle,
                     id:
                         "e" +
@@ -194,6 +298,8 @@
                         speed: 1500
                     });
                 });
+                this.login = false;
+                this.newEventTitle = '';
             },
             colorRandom: function () {
                 let random;
@@ -232,9 +338,9 @@
         min-height: 45rem;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-right: 30px;
+        padding-left: 10px;
+        padding-right: 26px !important;
+        padding-bottom: 25px !important;
     }
 
 
