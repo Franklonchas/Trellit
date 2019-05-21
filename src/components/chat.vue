@@ -1,6 +1,6 @@
 <template>
-    <div class="winter-neva-gradient">
-        <div class="chat-global">
+    <div class="winter-neva-gradient h-100">
+        <div class="chat-global container">
             <div v-for="mensajes in arrayMensajes" v-bind:key="mensajes.fecha">
                 <div class="row">
                     <div class="col-sm-12 lel">
@@ -144,7 +144,8 @@
 
 <style scoped>
     .chat-global{
-
+        overflow-y: scroll;
+        max-height: 750px;
     }
 
     .local-true{
