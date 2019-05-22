@@ -120,7 +120,7 @@
                         })
                     }
                 }
-                console.log(this.messageList);
+                //console.log(this.messageList);
                 return this.messageList;
             },
             getLocalName: function () {
