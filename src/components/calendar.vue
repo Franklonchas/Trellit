@@ -1,8 +1,8 @@
 <template>
     <div class="winter-neva-gradient">
-
-        <mdb-container style="display: inline-flex">
-            <div v-if="message" class="notification is-success">{{ message }}</div>
+        <h1 style="text-align: center; padding-top: 30px"> Roadmap Global</h1>
+        <mdb-container style="text-align: center;">
+            <mdb-alert v-if="message" color="success">{{ message }}</mdb-alert>
             <div v-if="modifyEvent">
                 <mdb-btn rounded color="default" @click="removeEve">Eliminar</mdb-btn>
                 <mdb-btn rounded color="default" @click="setTrue">Modificar</mdb-btn>
@@ -13,7 +13,9 @@
                         </mdb-modal-title>
                     </mdb-modal-header>
                     <mdb-modal-body class="mx-3 grey-text">
-                        <mdb-input v-model="newEventTitle" label="Nuevo nombre..." icon="edit" type="text" class="mb-5"/>
+                        <mdb-input style="text-align: left;" v-model="newEventTitle" label="Nuevo nombre..." icon="edit"
+                                   type="text"
+                                   class="mb-5"/>
                         <p>Seleccione una fecha de inicio:</p>
                         <date-picker v-model="date1" :config="options"></date-picker>
                         <br>
@@ -34,7 +36,8 @@
                     </mdb-modal-title>
                 </mdb-modal-header>
                 <mdb-modal-body class="mx-3 grey-text">
-                    <mdb-input v-model="newEventTitle" label="Evento..." icon="edit" type="text" class="mb-5"/>
+                    <mdb-input style="text-align: left;" v-model="newEventTitle" label="Evento..." icon="edit"
+                               type="text" class="mb-5"/>
                     <p>Seleccione una fecha de inicio:</p>
                     <date-picker v-model="date1" :config="options"></date-picker>
                     <br>
@@ -94,6 +97,7 @@
         mdbModalFooter,
         mdbInput,
         mdbModalTitle,
+        mdbAlert
     } from 'mdbvue';
 
     export default {
@@ -110,6 +114,7 @@
             mdbModalFooter,
             mdbInput,
             mdbModalTitle,
+            mdbAlert
         },
         mixins: [CalendarMathMixin],
         data() {
@@ -224,7 +229,7 @@
                 this.modifyEvent = false;
             },
             onClickEvent(e) {
-                this.message = `You clicked: ${e.title}`
+                this.message = `Has seleccionado el evento: ${e.title}`
                 this.localEvento = e.id;
                 this.modifyEvent = true;
             },
@@ -343,7 +348,6 @@
         padding-bottom: 25px !important;
     }
 
-
     .calendar-controls {
         margin-right: 1rem;
         min-width: 14rem;
@@ -374,5 +378,9 @@
     .theme-default .cv-event.birthday::before {
         content: "\1F382";
         margin-right: 0.5em;
+    }
+
+    .theme-default .cv-header, .theme-default .cv-header-day {
+        background-color: rgba(76, 175, 80, 0.1);
     }
 </style>

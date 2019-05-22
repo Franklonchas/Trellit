@@ -2,24 +2,26 @@
     <div class="winter-neva-gradient">
 
         <div class="cabecera_proyectos">
-            <mdb-container>
-                <mdb-btn rounded color="default" @click="login=true">Añadir tarea</mdb-btn>
+            <mdb-container style="text-align: center;">
                 <mdb-modal :show="login" @close="login = false">
                     <mdb-modal-header class="text-center">
                         <mdb-modal-title tag="h4" bold class="w-100">Añadir tarea a {{this.localNameProject}}
                         </mdb-modal-title>
                     </mdb-modal-header>
                     <mdb-modal-body class="mx-3 grey-text">
-                        <mdb-input v-model="nameTask" label="Nombre tarea" icon="edit" type="text" class="mb-5"/>
-                        <mdb-input v-model="worker" label="Quien la va a realizar (email)" icon="user-alt"
+                        <mdb-input style="text-align: left;" v-model="nameTask" label="Nombre tarea" icon="edit"
+                                   type="text" class="mb-5"/>
+                        <mdb-input style="text-align: left;" v-model="worker" label="Quien la va a realizar (email)"
+                                   icon="user-alt"
                                    type="email"/>
                         <p>Seleccione una fecha de finalización:</p>
                         <date-picker v-model="date" :config="options"></date-picker>
                         <br>
-                        <mdb-input v-model="descripcion" type="textarea" class="my-0">
+                        <mdb-input style="text-align: left;" v-model="descripcion" type="textarea" class="my-0">
                             <span class="input-group-text md-addon" slot="prepend">Descripción</span>
                         </mdb-input>
-                        <mdb-input v-model="passAdmin" label="Contraseña administrador/Jefe Proyecto" icon="lock"
+                        <mdb-input style="text-align: left;" v-model="passAdmin"
+                                   label="Contraseña administrador/Jefe Proyecto" icon="lock"
                                    type="email"/>
                     </mdb-modal-body>
                     <mdb-modal-footer center>
@@ -29,10 +31,18 @@
                 <h1 style="text-align: center">
                     Proyecto: {{this.localNameProject}}
                 </h1>
+                <mdb-btn rounded color="default" @click="login=true">Añadir tarea</mdb-btn>
+                <div class="container">
+                    <mdb-alert color="info">
+                        Jefe de Proyecto: {{this.localManager}}
+                    </mdb-alert>
+                    <mdb-alert color="info">
+                        Descripcion del proyecto: {{this.localDescription}}
+                    </mdb-alert>
+
+                </div>
             </mdb-container>
         </div>
-
-        <br><br>
 
         <div class="tareas deep-blue-gradient">
             <br>
@@ -90,6 +100,7 @@
         mdbMask,
         mdbCol,
         mdbRow,
+        mdbAlert
     } from 'mdbvue';
     import Chatroom from "./chatroom";
 
@@ -116,7 +127,9 @@
                 flag3: false,
                 arrayTasks: [],
                 customTask: [],
-                customIdTask: ''
+                customIdTask: '',
+                localManager: '',
+                localDescription: ''
             }
         },
         components: {
@@ -139,6 +152,7 @@
             mdbMask,
             mdbCol,
             mdbRow,
+            mdbAlert
         },
         methods: {
             parseEmail: function (email) {
@@ -248,6 +262,8 @@
                 for (let i = 0; i < this.arrayProjects.length; i++) {
                     if (this.arrayProjects[i].idProject === this.$route.params.id) {
                         this.localNameProject = this.arrayProjects[i].project;
+                        this.localManager = this.arrayProjects[i].manager;
+                        this.localDescription = this.arrayProjects[i].description;
                     }
                 }
             },
