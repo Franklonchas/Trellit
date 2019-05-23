@@ -15,6 +15,9 @@
                                     <mdb-icon far icon="clock"/>
                                     {{mensajes.fecha}}
                                 </small>
+                                <img alt="close" v-if="adminChat" @click="borrarMensaje(mensajes.fecha)"
+                                     style="height: 20px; width: 20px"
+                                     src="../assets/close.png">
                             </div>
                             <hr class="w-100">
                             <p class="mb-0">
@@ -33,6 +36,9 @@
                                     <mdb-icon far icon="clock"/>
                                     {{mensajes.fecha}}
                                 </small>
+                                <img alt="close" v-if="adminChat" @click="borrarMensaje(mensajes.fecha)"
+                                     style="height: 20px; width: 20px"
+                                     src="../assets/close.png">
                             </div>
                             <hr class="w-100">
                             <p class="mb-0">
@@ -63,7 +69,9 @@
                 localAutor: '',
                 arrayMensajes: [],
                 localUser: '',
-                loadMessage: ''
+                loadMessage: '',
+                arrayBD: [],
+                adminChat: false
             }
         },
         components: {
@@ -83,6 +91,7 @@
                             autor: mensajes[key].autor,
                             fecha: mensajes[key].fecha,
                             usuario: mensajes[key].usuario,
+                            clave: key,
                             local: true
                         });
                     }
@@ -92,6 +101,7 @@
                             autor: mensajes[key].autor,
                             fecha: mensajes[key].fecha,
                             usuario: mensajes[key].usuario,
+                            clave: key,
                             local: false
                         });
                     }
@@ -140,10 +150,50 @@
                     this.loadMessage += user[i];
                 }
                 return this.loadMessage;
+            },
+            loadUsers: function (users) {
+                this.arrayBD = [];
+                this.adminChat = false;
+
+                for (let key in users) {
+                    this.arrayBD.push({
+                        user: users[key].user,
+                        email: users[key].email,
+                        password: users[key].password,
+                        rol: users[key].rol,
+                        idUniq: users[key].idUniq
+                    })
+                }
+                let local = localStorage.getItem('sesion_activa');
+
+                for (let i = 0; i < this.arrayBD.length; i++) {
+                    if (local === this.arrayBD[i].idUniq && this.arrayBD[i].rol === 'admin') {
+                        this.adminChat = true;
+                    }
+                }
+            },
+            borrarMensaje: function (id) {
+                for (let i = 0; this.arrayMensajes.length; i++) {
+                    if (this.arrayMensajes[i].fecha === id) {
+                        firebase.database().ref('chat/' + this.arrayMensajes[i].clave).remove().then(() => {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'Mensaje eliminado.',
+                                text: '',
+                                type: 'warning',
+                                position: 'top left',
+                                duration: 3500,
+                                speed: 1500
+                            });
+                        });
+                        i = this.arrayMensajes.length;
+                    }
+                }
             }
         },
         mounted() {
             firebase.database().ref('chat/').on('value', snapshots => this.loadChats(snapshots.val()));
+            firebase.database().ref('users/').on('value', snapshots => this.loadUsers(snapshots.val()));
         }
     }
 </script>
