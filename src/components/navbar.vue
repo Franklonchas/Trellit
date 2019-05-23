@@ -6,12 +6,13 @@
             Trellit
         </mdb-navbar-brand>
         <mdb-navbar-toggler>
-            <mdb-navbar-nav right>
+            <mdb-navbar-nav left>
                 <mdb-nav-item router-link class="nav-link" to="/Lobby" active>Home</mdb-nav-item>
                 <mdb-nav-item router-link class="nav-link" to="/Calendario">Calendario</mdb-nav-item>
                 <mdb-nav-item router-link class="nav-link" to="/conversacion">Chats</mdb-nav-item>
                 <mdb-dropdown tag="li" class="nav-item">
-                    <mdb-dropdown-toggle tag="a" navLink color="indigo" slot="toggle" waves-fixed>Perfil
+                    <mdb-dropdown-toggle tag="a" style="padding:14px;" navLink color="indigo" slot="toggle" waves-fixed>
+                        Perfil
                     </mdb-dropdown-toggle>
                     <mdb-dropdown-menu>
                         <mdb-dropdown-item router-link to="/Ajustes">Ajustes</mdb-dropdown-item>

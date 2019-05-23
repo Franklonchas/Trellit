@@ -33,9 +33,11 @@
                                         Entra
                                     </h3>
                                     <hr class="hr-light"/>
-                                    <mdb-input v-model="logUser" label="Email" labelColor="white" icon="envelope"
+                                    <mdb-input v-model="logUser" style="color: white!important;" label="Email"
+                                               labelColor="white" icon="envelope"
                                                type="email"/>
-                                    <mdb-input v-model="logPass" label="Contraseña" labelColor="white" icon="lock"
+                                    <mdb-input v-model="logPass" style="color: white!important;" label="Contraseña"
+                                               labelColor="white" icon="lock"
                                                type="password"/>
                                     <div class="text-center mt-4 black-text">
                                         <mdb-btn @click="entrar" color="indigo">Entrar</mdb-btn>
