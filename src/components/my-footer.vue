@@ -14,7 +14,8 @@
                 <mdb-col sm="4">
                     <h5 class="title">Links de interés</h5>
                     <ul class="lel">
-                        <li class="list-unstyled"><a href="https://github.com/Franklonchas">
+                        <li class="list-unstyled"><a target="_blank" rel="noopener noreferrer"
+                                                     href="https://github.com/Franklonchas">
                             Github del desarrollador&nbsp;&nbsp;&nbsp;<mdb-icon fab icon="github"/>
                         </a></li>
                         <li class="list-unstyled">
