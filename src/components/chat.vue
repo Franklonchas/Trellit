@@ -178,7 +178,7 @@
                 }
             },
             borrarMensaje: function (id) {
-                for (let i = 0; this.arrayMensajes.length; i++) {
+                for (let i = 0; i < this.arrayMensajes.length; i++) {
                     if (this.arrayMensajes[i].fecha === id) {
                         firebase.database().ref('chat/' + this.arrayMensajes[i].clave).remove().then(() => {
                             this.$notify({
