@@ -10,7 +10,7 @@
                             <a href="#">
                                 <mdb-card-image
                                         src="https://www.crucial.com.au/wp-content/uploads/2014/07/example-person.png"
-                                        alt="Card image cap"></mdb-card-image>
+                                        style="height: 295px; width: 380px;" alt="Card image cap"></mdb-card-image>
                                 <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
                             </a>
                         </mdb-view>
@@ -34,14 +34,15 @@
                             </a>
                         </mdb-view>
                         <mdb-card-body cascade>
-                            <h5 class="pink-text pb-2 pt-1">
+                            <h5 style="text-align: center" class="pink-text pb-2 pt-1">
                                 Vue + Firebase
                             </h5>
-                            <mdb-card-title><strong>Las principales tecnologías de esta web</strong></mdb-card-title>
+                            <mdb-card-title style="text-align: center"><strong>Las principales tecnologías de esta
+                                web</strong></mdb-card-title>
                             <mdb-card-text>Este proyecto esta desarrollado con Vue y Firebase, tecnologias en auge que
                                 hacen esta web impresionante. ¿Has visto lo rapido que va todo? ¡Echale un vistazo!
                             </mdb-card-text>
-                            <mdb-btn slot="reference" color="primary">Saber más</mdb-btn>
+                            <mdb-btn style="" slot="reference" color="primary">Saber más</mdb-btn>
                             <mdb-tooltip>
                                 <span slot="tip">Enlace fuera de la web</span>
                                 <mdb-btn slot="reference" color="indigo lighten-2">Saber más</mdb-btn>

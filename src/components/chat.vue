@@ -1,5 +1,9 @@
 <template>
     <div class="winter-neva-gradient h-100">
+        <br>
+        <h1 style="text-align: center;">Chat Global</h1>
+        <h5 style="text-align: center;">No comparta material sensible o falte al respeto</h5>
+        <br>
         <div class="chat-global container">
             <div v-for="mensajes in arrayMensajes" v-bind:key="mensajes.fecha">
                 <div class="row">
@@ -24,7 +28,7 @@
                     <div class="col-sm-12">
                         <div v-if="mensajes.local===false" class="chat-body local-false white p-3 ml-2 z-depth-1">
                             <div class="header">
-                                <strong class="primary-font">{{mensajes.autor}}  </strong>
+                                <strong class="primary-font">{{mensajes.autor}} </strong>
                                 <small class="pull-right text-muted">
                                     <mdb-icon far icon="clock"/>
                                     {{mensajes.fecha}}
@@ -39,9 +43,11 @@
                 </div>
             </div>
         </div>
-
-        <mdb-input v-model="localMensaje" type="text" label="Escriba su mensaje..." icon="comment"/>
-        <mdb-btn @click="addMessage" color="indigo">Enviar</mdb-btn>
+        <div class="container enviar">
+            <mdb-input v-model="localMensaje" type="text" label="Escriba su mensaje..." icon="comment"/>
+            <mdb-btn @click="addMessage" color="indigo">Enviar</mdb-btn>
+        </div>
+        <br>
     </div>
 </template>
 
@@ -143,18 +149,26 @@
 </script>
 
 <style scoped>
-    .chat-global{
+    .chat-global {
         overflow-y: scroll;
         max-height: 750px;
+        background-image: url('../assets/backChat.png');
+        background-repeat: repeat;
     }
 
-    .local-true{
+    .enviar {
+        background-image: url('../assets/backChat.png');
+        background-repeat: repeat;
+    }
+
+    .local-true {
         max-width: 350px;
         vertical-align: top;
         float: right;
-        background-color: #E1FFC7!important;
+        background-color: #E1FFC7 !important;
     }
-    .lel{
+
+    .lel {
         padding-top: 15px;
         padding-right: 20px;
     }

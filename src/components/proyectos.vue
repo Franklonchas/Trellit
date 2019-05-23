@@ -22,7 +22,7 @@
                         </mdb-input>
                         <mdb-input style="text-align: left;" v-model="passAdmin"
                                    label="Contraseña administrador/Jefe Proyecto" icon="lock"
-                                   type="email"/>
+                                   type="password"/>
                     </mdb-modal-body>
                     <mdb-modal-footer center>
                         <mdb-btn @click="newTask">Asignar tarea</mdb-btn>

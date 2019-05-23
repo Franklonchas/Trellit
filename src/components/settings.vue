@@ -1,16 +1,14 @@
 <template>
-
     <div class="winter-neva-gradient">
         <mdb-row>
-
             <mdb-col md="6" xl="5" class="mb-4">
                 <div class="container changePass">
                     <p class="h4 text-center mb-4">Cambia tu contraseña</p>
                     <div class="grey-text">
-                        <mdb-input v-model="antiguaPass" label="Antigua Contraseña" icon="lock" type="text"/>
-                        <mdb-input v-model="nuevaPass" label="Nueva Contraseña" icon="lock" type="email"/>
+                        <mdb-input v-model="antiguaPass" label="Antigua Contraseña" icon="lock" type="password"/>
+                        <mdb-input v-model="nuevaPass" label="Nueva Contraseña" icon="lock" type="password"/>
                         <mdb-input v-model="nuevaPass2" label="Repetir Nueva Contraseña" icon="exclamation-triangle"
-                                   type="text"/>
+                                   type="password"/>
                     </div>
                     <div class="text-center">
                         <mdb-btn v-on:click="changePassword" color="primary">Cambiar Contraseña</mdb-btn>
