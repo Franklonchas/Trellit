@@ -9,6 +9,7 @@ import Project from './views/Project'
 import Estadistica from './views/Estadistica'
 import conversacion from './views/conversacion'
 import Webmap from './views/Webmap'
+import infoweb from './views/infoweb'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -118,6 +119,11 @@ export default new Router({
             path: '/Webmap',
             name: 'Webmap',
             component: Webmap
+        },
+        {
+            path: '/infoweb',
+            name: 'infoweb',
+            component: infoweb
         },
         {
             path: '/*',
