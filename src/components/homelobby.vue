@@ -45,7 +45,7 @@
                             <mdb-btn style="" slot="reference" color="primary">Saber más</mdb-btn>
                             <mdb-tooltip>
                                 <span slot="tip">Enlace fuera de la web</span>
-                                <mdb-btn slot="reference" color="indigo lighten-2">Saber más</mdb-btn>
+                                <mdb-btn slot="reference" color="indigo lighten-2">Leer más</mdb-btn>
                             </mdb-tooltip>
                         </mdb-card-body>
                     </mdb-card>

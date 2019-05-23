@@ -13,13 +13,14 @@
                 </mdb-col>
                 <mdb-col sm="6">
                     <h5 class="title">Links de interés</h5>
-                    <ul>
+                    <ul class="lel">
                         <li class="list-unstyled"><a href="https://github.com/Franklonchas">
                             Github del desarrollador&nbsp;&nbsp;&nbsp;<mdb-icon fab icon="github"/>
                         </a></li>
-                        <li class="list-unstyled"><a href="#!">
-                            Mapa de la web&nbsp;&nbsp;&nbsp;<mdb-icon icon="map-marked-alt"/>
-                        </a></li>
+                        <li class="list-unstyled">
+                            <router-link :to="'/Webmap'">Mapa Web</router-link>&nbsp;&nbsp;<mdb-icon
+                                icon="map-marked-alt"/>
+                        </li>
                         <li class="list-unstyled"><a href="#!">Portfolio personal&nbsp;&nbsp;&nbsp;<mdb-icon
                                 icon="user-circle"/>
                         </a></li>
@@ -54,5 +55,9 @@
 <style scoped>
     .mt-4 {
         margin-top: 0 !important;
+    }
+
+    .lel {
+        padding-left: 0!important;
     }
 </style>

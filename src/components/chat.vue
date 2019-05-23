@@ -4,7 +4,7 @@
         <h1 style="text-align: center;">Chat Global</h1>
         <h5 style="text-align: center;">No comparta material sensible o falte al respeto</h5>
         <br>
-        <div class="chat-global container">
+        <div class="chat-global container scrollauto">
             <div v-for="mensajes in arrayMensajes" v-bind:key="mensajes.fecha">
                 <div class="row">
                     <div class="col-sm-12 lel">
@@ -60,6 +60,7 @@
 <script>
     import {mdbInput, mdbBtn, mdbIcon} from 'mdbvue';
     import firebase from 'firebase'
+    import JQuery from 'jquery'
 
     export default {
         name: "chat",
@@ -106,6 +107,8 @@
                         });
                     }
                 }
+                let $ = JQuery;
+                $(".scrollauto").animate({scrollTop: 9999999}, 1000);
             },
             pasrseUser: function (user) {
                 this.localUser = '';
@@ -142,6 +145,8 @@
                     });
                 }
                 this.localMensaje = '';
+                let $ = JQuery;
+                $(".scrollauto").animate({scrollTop: 9999999}, 1000);
             },
             parseUser2: function () {
                 let user = localStorage.getItem('sesion_activa');

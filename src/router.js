@@ -8,6 +8,7 @@ import Ajustes from './views/Ajustes'
 import Project from './views/Project'
 import Estadistica from './views/Estadistica'
 import conversacion from './views/conversacion'
+import Webmap from './views/Webmap'
 import {auth} from './auxJS/auxFunctions';
 
 
@@ -112,6 +113,11 @@ export default new Router({
                     return next('/');
                 }
             }
+        },
+        {
+            path: '/Webmap',
+            name: 'Webmap',
+            component: Webmap
         },
         {
             path: '/*',
