@@ -16,7 +16,7 @@
                                     {{mensajes.fecha}}
                                 </small>
                                 <img alt="close" v-if="adminChat" @click="borrarMensaje(mensajes.fecha)"
-                                     style="height: 20px; width: 20px"
+                                     style="height: 20px; width: 20px ; cursor: pointer;" align="right"
                                      src="../assets/close.png">
                             </div>
                             <hr class="w-100">
@@ -37,7 +37,7 @@
                                     {{mensajes.fecha}}
                                 </small>
                                 <img alt="close" v-if="adminChat" @click="borrarMensaje(mensajes.fecha)"
-                                     style="height: 20px; width: 20px"
+                                     style="height: 20px; width: 20px; cursor: pointer;" align="right"
                                      src="../assets/close.png">
                             </div>
                             <hr class="w-100">
