@@ -4,13 +4,12 @@
         <h1 style="text-align: center">Novedades de la web</h1>
         <mdb-container>
             <mdb-row>
-                <mdb-col sm="4">
+                <mdb-col sm="3">
                     <mdb-card wide>
                         <mdb-view hover cascade>
                             <a href="#">
-                                <mdb-card-image
-                                        src="https://www.crucial.com.au/wp-content/uploads/2014/07/example-person.png"
-                                        style="height: 295px; width: 380px;" alt="Card image cap"></mdb-card-image>
+                                <img alt="image" class="responsive"
+                                     src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500">
                                 <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
                             </a>
                         </mdb-view>
@@ -23,7 +22,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
-                <mdb-col sm="4">
+                <mdb-col sm="3">
                     <mdb-card narrow>
                         <mdb-view hover cascade>
                             <a href="#">
@@ -50,7 +49,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
-                <mdb-col sm="4">
+                <mdb-col sm="3">
                     <mdb-card cascade>
                         <mdb-view hover cascade>
                             <a href="#">
@@ -65,6 +64,28 @@
                             <mdb-card-text>Esta web es no solo es grande, como AZETA, supone todo un reto en desarrollo
                                 y despliegue de esta, ya que es la editorial mas grande de España y muy importante en
                                 America del Sur.
+                            </mdb-card-text>
+                            <br>
+                        </mdb-card-body>
+                    </mdb-card>
+                </mdb-col>
+                <mdb-col sm="3">
+                    <mdb-card cascade>
+                        <mdb-view hover cascade>
+                            <a href="#">
+                                <mdb-card-image
+                                        src="https://s3.amazonaws.com/cdn.wp.m4ecnet/wp-content/uploads/2018/06/05041237/GitHub-logo-2-imagen.jpg"
+                                        alt="Card image cap"></mdb-card-image>
+                                <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                            </a>
+                        </mdb-view>
+                        <mdb-card-body class="text-center" cascade>
+                            <mdb-card-title><strong>Trellit</strong></mdb-card-title>
+                            <h5>Desarrollo de funcionalidades</h5>
+                            <mdb-card-text>El proyecto ha finalizado su desarrollo de funcionalidades, ahora solo queda
+                                pulir y solucionar fallos de maquetación y estilos. Puede ver el código del proyecto
+                                en Github y ver el trascurso del desarrollo y colaborar en lo que falta, si lo desea.
+                                !Disfrute de la web¡
                             </mdb-card-text>
                             <br>
                         </mdb-card-body>
@@ -167,5 +188,8 @@
 </script>
 
 <style scoped>
-
+    .responsive {
+        width: 100%;
+        height: auto;
+    }
 </style>
