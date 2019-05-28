@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
 var nodemailer = require('nodemailer');
+var LocalEmail = '';
+var LocalClient = '';
 
 // Settings for CORS only for test in localhost
 app.use(function (req, res, next) {
@@ -51,5 +53,48 @@ io.on("connection", function (socket) {
         });
 
     });
+    socket.on('sentEmail', function (email) {
+        LocalEmail = '';
+        LocalEmail = email;
+        return LocalEmail;
+    });
+    socket.on('sentClient', function (client) {
+        LocalClient = '';
+        LocalClient = client;
+        return LocalClient;
+    });
+
+    socket.on('sentNewLogin', function (response) {
+        //console.log(JSON.parse(response));
+        let temp = JSON.parse(response);
+        //console.log(temp.data.country);
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'fjsancheztrellit@gmail.com',
+                pass: 'Qwerty_12345'
+            }
+        });
+
+        var mailOptions = {
+            from: 'fjsancheztrellit@gmail.com',
+            to: LocalEmail,
+            subject: 'Bienvenido a Trellit ✔',
+            text: 'Hola: ' + LocalEmail + '. Se ha iniciado sesion en un cliente --> ' + LocalClient + ', con la IP--> '
+                + temp.data.ip + ', desde--> ' + temp.data.city + ' ' + temp.data.region + ' ' + temp.data.country_name
+                + ' ' + temp.data.country + ' / ' + temp.data.continent_code + ', latitud--> ' + temp.data.latitude
+                + ', longitud--> ' + temp.data.longitude + ', registrado por la organización--> ' + temp.data.org
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    });
+
 });
 

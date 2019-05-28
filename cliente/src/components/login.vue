@@ -101,6 +101,8 @@
 
 <script>
     import firebase from 'firebase'
+    import axios from "axios";
+
     import {
         mdbContainer,
         mdbRow,
@@ -235,7 +237,7 @@
                             duration: 3500,
                             speed: 1500
                         });
-                        this.$socket.emit('sentConfirmation',JSON.stringify(local));
+                        this.$socket.emit('sentConfirmation', JSON.stringify(local));
                     });
                     this.boolRegister = false;
                     this.registerUser = '';
@@ -302,6 +304,10 @@
                                     duration: 3500,
                                     speed: 1500
                                 });
+                                this.$socket.emit('sentEmail', JSON.stringify(this.localEmail));
+                                this.$socket.emit('sentClient', JSON.stringify(navigator.userAgent));
+                                axios.get("https://ipapi.co/json/")
+                                    .then(response => this.$socket.emit('sentNewLogin', JSON.stringify(response)));
                             });
                             this.$router.push('Lobby');
                         }
