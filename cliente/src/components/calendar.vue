@@ -383,4 +383,20 @@
     .theme-default .cv-header, .theme-default .cv-header-day {
         background-color: rgba(76, 175, 80, 0.1);
     }
+
+    .cv-day, .cv-event, .cv-header-day, .cv-header-days, .cv-week, .cv-weeks {
+        background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .theme-default .cv-day.outsideOfMonth {
+        background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .theme-default .cv-day.past {
+        background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .theme-default .cv-day.today {
+        background-color: rgba(76, 175, 80, 0.1);
+    }
 </style>
