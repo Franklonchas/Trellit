@@ -31,7 +31,7 @@
                 <h1 style="text-align: center">
                     Proyecto: {{this.localNameProject}}
                 </h1>
-                <mdb-btn rounded color="default" @click="login=true">Añadir tarea</mdb-btn>
+                <mdb-btn rounded color="indigo" @click="login=true">Añadir tarea</mdb-btn>
                 <div class="container">
                     <mdb-alert color="info">
                         Jefe de Proyecto: {{this.localManager}}

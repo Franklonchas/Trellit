@@ -42,7 +42,7 @@
 
                 <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
                     <h3 style="text-align: center">Estadisticas de proyectos:</h3>
-                    <mdb-list-group>
+                    <mdb-list-group class="z-depth-2">
                         <mdb-list-group-item v-for="project in arrayProjects" v-bind:key="project.idProject">
                             <router-link :to="'/Estadistica/' + project.idProject">{{project.project}}
                             </router-link>

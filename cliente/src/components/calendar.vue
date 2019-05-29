@@ -4,8 +4,8 @@
         <mdb-container style="text-align: center;">
             <mdb-alert v-if="message" color="success">{{ message }}</mdb-alert>
             <div v-if="modifyEvent">
-                <mdb-btn rounded color="default" @click="removeEve">Eliminar</mdb-btn>
-                <mdb-btn rounded color="default" @click="setTrue">Modificar</mdb-btn>
+                <mdb-btn rounded color="indigo" @click="removeEve">Eliminar</mdb-btn>
+                <mdb-btn rounded color="indigo" @click="setTrue">Modificar</mdb-btn>
                 <mdb-modal :show="login2" @close="login2 = false">
                     <mdb-modal-header class="text-center">
                         <mdb-modal-title class="w-100" tag="h4" bold>
@@ -28,7 +28,7 @@
                     </mdb-modal-footer>
                 </mdb-modal>
             </div>
-            <mdb-btn rounded color="default" @click="login=true">Añadir tarea</mdb-btn>
+            <mdb-btn rounded color="indigo" @click="login=true">Añadir tarea</mdb-btn>
             <mdb-modal :show="login" @close="login = false">
                 <mdb-modal-header class="text-center">
                     <mdb-modal-title class="w-100" tag="h4" bold>
@@ -52,7 +52,7 @@
         </mdb-container>
 
         <div id="cal">
-            <div class="calendar-parent">
+            <div class="calendar-parent z-depth-2">
                 <calendar-view
                         :events="events"
                         :show-date="showDate"
