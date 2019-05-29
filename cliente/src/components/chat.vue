@@ -10,7 +10,7 @@
                     <div class="col-sm-12 lel">
                         <div v-if="mensajes.local===true" class="chat-body local-true white p-3 ml-2 z-depth-1">
                             <div class="header">
-                                <strong class="primary-font">{{mensajes.autor}}</strong>
+                                <strong class="primary-font">{{mensajes.autor}} </strong>
                                 <small class="pull-right text-muted">
                                     <mdb-icon far icon="clock"/>
                                     {{mensajes.fecha}}

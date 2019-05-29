@@ -1,60 +1,84 @@
 <template>
     <div class="winter-neva-gradient">
-        <mdb-row>
-
-            <mdb-col md="6" xl="5" class="mb-4 createProject">
-                <br>
-                <div class="z-depth-2 white-text card-body">
-                    <p class="h4 text-center mb-4">Crear Nuevo Proyecto</p>
-                    <div class="grey-text">
-                        <mdb-input v-model="nombreProyecto" label="Nombre Proyecto" icon="sitemap" type="text"/>
-                        <mdb-input v-model="descripcion" label="Descripcion del proyecto" icon="pencil-alt"
-                                   type="textarea"/>
-                        <mdb-input v-model="emailBoss" label="Jefe de Proyecto (email)" icon="user-tie" type="email"/>
-                        <mdb-input v-model="localPass" label="Contraseña Administrador" icon="lock"
-                                   type="password"/>
-                    </div>
-                    <div class="text-center">
-                        <mdb-btn v-on:click="addProject" color="primary">Crear Proyecto</mdb-btn>
-                    </div>
-                </div>
-            </mdb-col>
-
-
-            <mdb-col md="6" xl="5" class="mb-4 createProject">
-                <br>
-                <div class="z-depth-2 white-text card-body">
-                    <p class="h4 text-center mb-4">Hacer nuevo ADMINISTRADOR</p>
-                    <div class="grey-text">
-                        <mdb-input v-model="emailAdmin" label="Nuevo Admin (email)" icon="user-tie" type="email"/>
-                        <mdb-input v-model="localPass2" label="Contraseña Administrador" icon="lock"
-                                   type="password"/>
-                    </div>
-                    <div class="text-center">
-                        <mdb-btn v-on:click="addAdmin" color="primary">Generar</mdb-btn>
-                    </div>
+        <div class="container">
+            <mdb-row>
+                <mdb-col md="6" xl="5" class="mb-4 createProject">
                     <br>
-                    <p style="color:dimgrey">Ten en cuenta que un ADMINISTRADOR tiene acceso a todos los apartados de la
-                        App. Piensate bien a quien le concedes los permisos.</p>
-                </div>
-            </mdb-col>
+                    <div class="z-depth-2 white-text card-body">
+                        <p class="h4 text-center mb-4">Crear Nuevo Proyecto</p>
+                        <div class="grey-text">
+                            <mdb-input v-model="nombreProyecto" label="Nombre Proyecto" icon="sitemap" type="text"/>
+                            <mdb-input v-model="descripcion" label="Descripcion del proyecto" icon="pencil-alt"
+                                       type="textarea"/>
+                            <mdb-input v-model="emailBoss" label="Jefe de Proyecto (email)" icon="user-tie"
+                                       type="email"/>
+                            <mdb-input v-model="localPass" label="Contraseña Administrador" icon="lock"
+                                       type="password"/>
+                        </div>
+                        <div class="text-center">
+                            <mdb-btn v-on:click="addProject" color="indigo">Crear Proyecto</mdb-btn>
+                        </div>
+                    </div>
+                </mdb-col>
 
-            <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
-                <h3 style="text-align: center">Estadisticas de proyectos:</h3>
-                <mdb-list-group>
-                    <mdb-list-group-item v-for="project in arrayProjects" v-bind:key="project.idProject">
-                        <router-link :to="'/Estadistica/' + project.idProject">{{project.project}}
-                        </router-link>
-                        <mdb-badge color="blue" pill>{{project.idProject}}</mdb-badge>
-                    </mdb-list-group-item>
-                </mdb-list-group>
-            </mdb-col>
-        </mdb-row>
+                <mdb-col md="6" xl="5" class="mb-4 createProject">
+                    <br>
+                    <div class="z-depth-2 white-text card-body">
+                        <p class="h4 text-center mb-4">Hacer nuevo ADMINISTRADOR</p>
+                        <div class="grey-text">
+                            <mdb-input v-model="emailAdmin" label="Nuevo Admin (email)" icon="user-tie" type="email"/>
+                            <mdb-input v-model="localPass2" label="Contraseña Administrador" icon="lock"
+                                       type="password"/>
+                        </div>
+                        <div class="text-center">
+                            <mdb-btn v-on:click="addAdmin" color="indigo">Generar</mdb-btn>
+                        </div>
+                        <br>
+                        <p style="color:dimgrey">Ten en cuenta que un ADMINISTRADOR tiene acceso a todos los apartados
+                            de la
+                            App. Piensate bien a quien le concedes los permisos.</p>
+                    </div>
+                </mdb-col>
+
+                <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
+                    <h3 style="text-align: center">Estadisticas de proyectos:</h3>
+                    <mdb-list-group>
+                        <mdb-list-group-item v-for="project in arrayProjects" v-bind:key="project.idProject">
+                            <router-link :to="'/Estadistica/' + project.idProject">{{project.project}}
+                            </router-link>
+                            <mdb-badge color="indigo" pill>{{project.idProject}}</mdb-badge>
+                        </mdb-list-group-item>
+                    </mdb-list-group>
+                </mdb-col>
+
+                <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
+                    <div class="z-depth-2 white-text card-body">
+                        <p class="h4 text-center mb-4">Eliminar Usuario</p>
+                        <div class="grey-text">
+                            <mdb-input v-model="usuarioElminar" label="Email usuario eliminar" icon="user"
+                                       type="email"/>
+                            <mdb-input v-model="localPass3" label="Contraseña Administrador" icon="lock"
+                                       type="password"/>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="radio1" id="defaultUnchecked">
+                                <label class="custom-control-label" for="defaultUnchecked">Acepto que este usuario
+                                    dejará de tener derecho a tener acceso a la plataforma, perdera sus permisos y
+                                    datos asociados a esta.</label>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <mdb-btn v-on:click="removeUser" color="indigo">Generar</mdb-btn>
+                        </div>
+                    </div>
+                </mdb-col>
+            </mdb-row>
+        </div>
     </div>
 </template>
 
 <script>
     import firebase from 'firebase'
+    import JQuery from 'jquery'
     import {mdbInput, mdbBtn, mdbRow, mdbCol, mdbListGroup, mdbListGroupItem, mdbBadge} from 'mdbvue';
 
     export default {
@@ -72,9 +96,15 @@
                 flag1: false,
                 emailAdmin: '',
                 localPass2: '',
+                localPass3: '',
                 flag2: false,
                 flag3: false,
-                arrayProjects: []
+                arrayProjects: [],
+                usuarioElminar: '',
+                flag4: false,
+                flag5: false,
+                flag6: false,
+                localNameUser: ''
             }
         },
         components: {
@@ -249,6 +279,40 @@
                 }
                 this.flag2 = false;
                 this.flag3 = false;
+            },
+            removeUser: function () {
+                let $ = JQuery;
+                for (let i = 0; i < this.arrayBD.length; i++) {
+                    if (this.arrayBD[i].email === this.usuarioElminar) {
+                        this.flag4 = true;
+                        this.localNameUser = this.arrayBD[i].user
+                    }
+                }
+                for (let i = 0; i < this.arrayBD.length; i++) {
+                    if (this.arrayBD[i].password === this.localPass3 && this.arrayBD[i].rol === 'admin') {
+                        this.flag5 = true;
+                    }
+                }
+
+                if (this.flag4 && this.flag5 === true) {
+                    firebase.database().ref('users/' + this.localNameUser).remove().then(() => {
+                        this.$notify({
+                            group: 'foo',
+                            title: 'Usuario eliminado.',
+                            text: '',
+                            type: 'warning',
+                            position: 'top left',
+                            duration: 3500,
+                            speed: 1500
+                        });
+                    });
+                }
+                this.localPass3 = '';
+                this.usuarioElminar = '';
+                this.flag4 = false;
+                this.flag5 = false;
+                this.flag6 = false;
+                this.localNameUser = '';
             }
         },
         mounted() {
@@ -264,9 +328,9 @@
         padding-left: 35px;
     }
 
-    .d-flex>*, .d-inline-flex>* {
-        -webkit-box-flex: 1!important;
-        -ms-flex: 1 1 auto!important;
-        flex: 0 1 auto!important;
+    .d-flex > *, .d-inline-flex > * {
+        -webkit-box-flex: 1 !important;
+        -ms-flex: 1 1 auto !important;
+        flex: 0 1 auto !important;
     }
 </style>

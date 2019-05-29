@@ -3,6 +3,9 @@ var app = express();
 var nodemailer = require('nodemailer');
 var LocalEmail = '';
 var LocalClient = '';
+var task = '';
+var desc = '';
+var project = '';
 
 // Settings for CORS only for test in localhost
 app.use(function (req, res, next) {
@@ -37,7 +40,7 @@ io.on("connection", function (socket) {
         });
 
         var mailOptions = {
-            from: 'fjsancheztrellit@gmail.com',
+            from: 'Trellit ✔',
             to: socket.email,
             subject: 'Bienvenido a Trellit ✔',
             text: 'Hola: ' + socket.email + '. Te has registrado en Trellit, esperamos que tu experiencia sea de pleno' +
@@ -78,13 +81,61 @@ io.on("connection", function (socket) {
         });
 
         var mailOptions = {
-            from: 'fjsancheztrellit@gmail.com',
+            from: 'Trellit ✔',
             to: LocalEmail,
             subject: 'Bienvenido a Trellit ✔',
             text: 'Hola: ' + LocalEmail + '. Se ha iniciado sesion en un cliente --> ' + LocalClient + ', con la IP--> '
                 + temp.data.ip + ', desde--> ' + temp.data.city + ' ' + temp.data.region + ' ' + temp.data.country_name
                 + ' ' + temp.data.country + ' / ' + temp.data.continent_code + ', latitud--> ' + temp.data.latitude
                 + ', longitud--> ' + temp.data.longitude + ', registrado por la organización--> ' + temp.data.org
+        };
+
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+    });
+
+    socket.on('sentNombreTarea', function (nameTask) {
+        task = '';
+        task = nameTask;
+        return task;
+    });
+
+    socket.on('sentDescripcionTarea', function (descripcion) {
+        desc = '';
+        desc = descripcion;
+        return descripcion;
+    });
+
+    socket.on('sentProyecto', function (proyecto) {
+        project = '';
+        project = proyecto;
+        return project;
+    });
+
+    socket.on('sentNewTask', function (email) {
+        socket.email = email;
+        let temp = JSON.parse(socket.email);
+        console.log(temp);
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'fjsancheztrellit@gmail.com',
+                pass: 'Qwerty_12345'
+            }
+        });
+
+        var mailOptions = {
+            from: 'Trellit ✔',
+            to: temp,
+            subject: 'Nueva tarea añadida',
+            text: 'Hola: ' + temp + '. Se ha añadido una nueva tarea a--> ' + project + ', llamada--> ' + task +
+                ' ,Descripción--> ' + desc + '. Saludos' + 'del equipo de Trellit ✔'
         };
 
         transporter.sendMail(mailOptions, function (error, info) {

@@ -194,6 +194,11 @@
                                                     speed: 1500
                                                 });
                                             });
+                                            this.$socket.emit('sentNombreTarea', JSON.stringify(this.nameTask));
+                                            this.$socket.emit('sentDescripcionTarea', JSON.stringify(this.descripcion));
+                                            this.$socket.emit('sentProyecto', JSON.stringify(this.localNameProject));
+                                            this.$socket.emit('sentNewTask', JSON.stringify(this.worker));
+                                            // restablecemos campos
                                             k = this.arrayProjects.length;
                                             this.nameTask = '';
                                             this.worker = '';
