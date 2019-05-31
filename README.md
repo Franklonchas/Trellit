@@ -24,9 +24,13 @@ npm run test
 ```
 npm run lint
 ```
+## License
+
+Trellit is licensed under the EULA License - see the [LICENSE.md](https://github.com/Franklonchas/Trellit/blob/master/LICENSE) file for details
+
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 # Trellit
 
-Descripcion del proyecto
+Descripción del proyecto
