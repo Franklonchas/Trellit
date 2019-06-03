@@ -43,6 +43,13 @@
                 <input v-model="search" type="text" class="form-control"
                        placeholder="Escribe aquí para buscar una tarea..."
                        aria-label="" aria-describedby="">
+                <br>
+                <mdb-btn-group>
+                    <mdb-btn color="indigo" @click.native="toggleActiveState5" :active="active5">Todas</mdb-btn>
+                    <mdb-btn color="indigo" @click.native="toggleActiveState6" :active="active6">Completadas</mdb-btn>
+                    <mdb-btn color="indigo" @click.native="toggleActiveState7" :active="active7">No Completadas
+                    </mdb-btn>
+                </mdb-btn-group>
             </mdb-container>
         </div>
 
@@ -50,6 +57,62 @@
             <br>
             <mdb-row>
                 <mdb-col sm="12">
+                    <mdb-row v-if="this.active6">
+                        <mdb-col v-for="item in this.arrayCompletadas"
+                                 v-bind:key="item.nombreTarea" sm="3" style="padding-left: 10px;">
+                            <mdb-card wide>
+                                <mdb-view hover cascade>
+                                    <a href="#">
+                                        <mdb-card-image
+                                                src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
+                                                alt="Card image cap"></mdb-card-image>
+                                        <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                                    </a>
+                                </mdb-view>
+                                <mdb-card-body class="text-center" cascade>
+                                    <mdb-card-title><img v-if="item.terminado===false"
+                                                         @click="changeState(item.nombreTarea, item.terminado)"
+                                                         src="../assets/noChecked.png">
+                                        <img v-if="item.terminado===true"
+                                             @click="changeState(item.nombreTarea, item.terminado)"
+                                             src="../assets/checked.png">
+                                        <strong>{{item.nombreTarea}}</strong></mdb-card-title>
+                                    <h5 class="blue-text"><strong>Programador: {{item.trabajador}}</strong></h5>
+                                    <mdb-card-text>Descripcion: {{item.descripcionTarea}}</mdb-card-text>
+                                    <mdb-card-text>Fecha de entrega: {{item.fecha}}</mdb-card-text>
+                                </mdb-card-body>
+                            </mdb-card>
+                            <br>
+                        </mdb-col>
+                    </mdb-row>
+                    <mdb-row v-if="this.active7">
+                        <mdb-col v-for="item in this.arrayNoCompletadas"
+                                 v-bind:key="item.nombreTarea" sm="3" style="padding-left: 10px;">
+                            <mdb-card wide>
+                                <mdb-view hover cascade>
+                                    <a href="#">
+                                        <mdb-card-image
+                                                src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
+                                                alt="Card image cap"></mdb-card-image>
+                                        <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                                    </a>
+                                </mdb-view>
+                                <mdb-card-body class="text-center" cascade>
+                                    <mdb-card-title><img v-if="item.terminado===false"
+                                                         @click="changeState(item.nombreTarea, item.terminado)"
+                                                         src="../assets/noChecked.png">
+                                        <img v-if="item.terminado===true"
+                                             @click="changeState(item.nombreTarea, item.terminado)"
+                                             src="../assets/checked.png">
+                                        <strong>{{item.nombreTarea}}</strong></mdb-card-title>
+                                    <h5 class="blue-text"><strong>Programador: {{item.trabajador}}</strong></h5>
+                                    <mdb-card-text>Descripcion: {{item.descripcionTarea}}</mdb-card-text>
+                                    <mdb-card-text>Fecha de entrega: {{item.fecha}}</mdb-card-text>
+                                </mdb-card-body>
+                            </mdb-card>
+                            <br>
+                        </mdb-col>
+                    </mdb-row>
                     <mdb-row v-if="findTask">
                         <mdb-col v-for="item in findTask" v-bind:key="item.nombreTarea" sm="3"
                                  style="padding-left: 10px;">
@@ -136,7 +199,8 @@
         mdbMask,
         mdbCol,
         mdbRow,
-        mdbAlert
+        mdbAlert,
+        mdbBtnGroup,
     } from 'mdbvue';
     import Chatroom from "./chatroom";
 
@@ -166,7 +230,13 @@
                 customIdTask: '',
                 localManager: '',
                 localDescription: '',
-                search: ''
+                search: '',
+                active5: true,
+                active6: false,
+                active7: false,
+                arrayCompletadas: [],
+                arrayNoCompletadas: [],
+                arrayTasksAux: []
             }
         },
         components: {
@@ -189,7 +259,8 @@
             mdbMask,
             mdbCol,
             mdbRow,
-            mdbAlert
+            mdbAlert,
+            mdbBtnGroup,
         },
         methods: {
             parseEmail: function (email) {
@@ -399,6 +470,67 @@
                     });
                 }
             },
+            toggleActiveState5() {
+                //Todos
+                this.active5 = true;
+                this.active6 = false;
+                this.active7 = false;
+                if (this.arrayTasks.length === 0) {
+                    this.arrayTasks = this.arrayTasksAux;
+                }
+            },
+            toggleActiveState6() {
+                //Completadas
+                this.arrayCompletadas = [];
+                this.active5 = false;
+                this.active6 = true;
+                this.active7 = false;
+
+                if (this.arrayTasks.length === 0) {
+                    this.arrayTasks = this.arrayTasksAux;
+                }
+
+                for (let i = 0; i < this.arrayTasks.length; i++) {
+                    if (this.arrayTasks[i].terminado === true) {
+                        this.arrayCompletadas.push({
+                            nombreTarea: this.arrayTasks[i].nombreTarea,
+                            trabajador: this.arrayTasks[i].trabajador,
+                            fecha: this.arrayTasks[i].fecha,
+                            descripcionTarea: this.arrayTasks[i].descripcionTarea,
+                            terminado: this.arrayTasks[i].terminado
+                        });
+                    }
+                }
+                this.arrayTasksAux = this.arrayTasks;
+                this.arrayTasks = [];
+                return this.arrayCompletadas;
+            },
+            toggleActiveState7() {
+                //No completadas
+                this.active5 = false;
+                this.active6 = false;
+                this.active7 = true;
+                this.arrayNoCompletadas = [];
+
+                if (this.arrayTasks.length === 0) {
+                    this.arrayTasks = this.arrayTasksAux;
+                }
+
+                for (let i = 0; i < this.arrayTasks.length; i++) {
+                    if (this.arrayTasks[i].terminado === false) {
+                        this.arrayNoCompletadas.push({
+                            nombreTarea: this.arrayTasks[i].nombreTarea,
+                            trabajador: this.arrayTasks[i].trabajador,
+                            fecha: this.arrayTasks[i].fecha,
+                            descripcionTarea: this.arrayTasks[i].descripcionTarea,
+                            terminado: this.arrayTasks[i].terminado
+                        });
+                    }
+                }
+                this.arrayTasksAux = this.arrayTasks;
+                this.arrayTasks = [];
+                return this.arrayNoCompletadas;
+            },
         },
         mounted() {
             firebase.database().ref('projects/').on('value', snapshots => this.loadProjects(snapshots.val()));
@@ -423,5 +555,10 @@
     .tareas {
         width: 100%;
     //overflow-x: auto;
+    }
+
+    .col-sm-3 {
+        padding-left: 30px !important;
+        padding-right: 20px !important;
     }
 </style>
