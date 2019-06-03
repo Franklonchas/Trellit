@@ -307,6 +307,17 @@
                         });
                     });
                 }
+                if (this.flag4 === false || this.flag5 === false) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'Datos introducidos erroneos.',
+                        text: 'Compruebe los datos introducidos.',
+                        type: 'error',
+                        position: 'top left',
+                        duration: 3500,
+                        speed: 1500
+                    });
+                }
                 this.localPass3 = '';
                 this.usuarioElminar = '';
                 this.flag4 = false;

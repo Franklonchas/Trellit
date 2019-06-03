@@ -39,14 +39,12 @@
                     <mdb-alert color="info">
                         Descripcion del proyecto: {{this.localDescription}}
                     </mdb-alert>
-
                 </div>
+                <input v-model="search" type="text" class="form-control"
+                       placeholder="Escribe aquí para buscar una tarea..."
+                       aria-label="" aria-describedby="">
             </mdb-container>
         </div>
-
-        <input v-model="search" type="text" class="form-control" placeholder="Escribe aquí para buscar una nota..."
-               aria-label="" aria-describedby="">
-
 
         <div class="tareas deep-blue-gradient">
             <br>
@@ -424,6 +422,6 @@
 <style scoped>
     .tareas {
         width: 100%;
-        //overflow-x: auto;
+    //overflow-x: auto;
     }
 </style>
