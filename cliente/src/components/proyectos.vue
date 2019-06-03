@@ -44,32 +44,70 @@
             </mdb-container>
         </div>
 
+        <input v-model="search" type="text" class="form-control" placeholder="Escribe aquí para buscar una nota..."
+               aria-label="" aria-describedby="">
+
+
         <div class="tareas deep-blue-gradient">
             <br>
             <mdb-row>
-                <mdb-col v-for="task in arrayTasks" v-bind:key="task.nombreTarea" sm="3" style="padding-left: 30px;">
-                    <mdb-card wide>
-                        <mdb-view hover cascade>
-                            <a href="#">
-                                <mdb-card-image
-                                        src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
-                                        alt="Card image cap"></mdb-card-image>
-                                <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
-                            </a>
-                        </mdb-view>
-                        <mdb-card-body class="text-center" cascade>
-                            <mdb-card-title><img v-if="task.terminado===false"
-                                                 @click="changeState(task.nombreTarea, task.terminado)"
-                                                 src="../assets/noChecked.png">
-                                <img v-if="task.terminado===true" @click="changeState(task.nombreTarea, task.terminado)"
-                                     src="../assets/checked.png">
-                                <strong>{{task.nombreTarea}}</strong></mdb-card-title>
-                            <h5 class="blue-text"><strong>Programador: {{task.trabajador}}</strong></h5>
-                            <mdb-card-text>Descripcion: {{task.descripcionTarea}}</mdb-card-text>
-                            <mdb-card-text>Fecha de entrega: {{task.fecha}}</mdb-card-text>
-                        </mdb-card-body>
-                    </mdb-card>
-                    <br>
+                <mdb-col sm="12">
+                    <mdb-row v-if="findTask">
+                        <mdb-col v-for="item in findTask" v-bind:key="item.nombreTarea" sm="3"
+                                 style="padding-left: 10px;">
+                            <mdb-card wide>
+                                <mdb-view hover cascade>
+                                    <a href="#">
+                                        <mdb-card-image
+                                                src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
+                                                alt="Card image cap"></mdb-card-image>
+                                        <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                                    </a>
+                                </mdb-view>
+                                <mdb-card-body class="text-center" cascade>
+                                    <mdb-card-title><img v-if="item.terminado===false"
+                                                         @click="changeState(item.nombreTarea, item.terminado)"
+                                                         src="../assets/noChecked.png">
+                                        <img v-if="item.terminado===true"
+                                             @click="changeState(item.nombreTarea, item.terminado)"
+                                             src="../assets/checked.png">
+                                        <strong>{{item.nombreTarea}}</strong></mdb-card-title>
+                                    <h5 class="blue-text"><strong>Programador: {{item.trabajador}}</strong></h5>
+                                    <mdb-card-text>Descripcion: {{item.descripcionTarea}}</mdb-card-text>
+                                    <mdb-card-text>Fecha de entrega: {{item.fecha}}</mdb-card-text>
+                                </mdb-card-body>
+                            </mdb-card>
+                            <br>
+                        </mdb-col>
+                    </mdb-row>
+                    <mdb-row v-else>
+                        <mdb-col v-for="task in arrayTasks" v-bind:key="task.nombreTarea" sm="3"
+                                 style="padding-left: 10px;">
+                            <mdb-card wide>
+                                <mdb-view hover cascade>
+                                    <a href="#">
+                                        <mdb-card-image
+                                                src="https://i2.wp.com/www.silocreativo.com/wp-content/uploads/2017/12/visual-code-portada.png?fit=666%2C370&quality=100&strip=all&ssl=1"
+                                                alt="Card image cap"></mdb-card-image>
+                                        <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
+                                    </a>
+                                </mdb-view>
+                                <mdb-card-body class="text-center" cascade>
+                                    <mdb-card-title><img v-if="task.terminado===false"
+                                                         @click="changeState(task.nombreTarea, task.terminado)"
+                                                         src="../assets/noChecked.png">
+                                        <img v-if="task.terminado===true"
+                                             @click="changeState(task.nombreTarea, task.terminado)"
+                                             src="../assets/checked.png">
+                                        <strong>{{task.nombreTarea}}</strong></mdb-card-title>
+                                    <h5 class="blue-text"><strong>Programador: {{task.trabajador}}</strong></h5>
+                                    <mdb-card-text>Descripcion: {{task.descripcionTarea}}</mdb-card-text>
+                                    <mdb-card-text>Fecha de entrega: {{task.fecha}}</mdb-card-text>
+                                </mdb-card-body>
+                            </mdb-card>
+                            <br>
+                        </mdb-col>
+                    </mdb-row>
                 </mdb-col>
             </mdb-row>
         </div>
@@ -129,7 +167,8 @@
                 customTask: [],
                 customIdTask: '',
                 localManager: '',
-                localDescription: ''
+                localDescription: '',
+                search: ''
             }
         },
         components: {
@@ -367,6 +406,17 @@
             firebase.database().ref('projects/').on('value', snapshots => this.loadProjects(snapshots.val()));
             firebase.database().ref('projects/' + this.localNameProject + '/tareas/').on('value', snapshots =>
                 this.loadTasks(snapshots.val()));
+        },
+        computed: {
+            findTask: function () {
+                if (this.search === '' || this.search === ' ') {
+                    return false;
+                } else {
+                    return this.arrayTasks.filter(item => {
+                        return item.nombreTarea.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+                    });
+                }
+            },
         }
     }
 </script>
@@ -374,6 +424,6 @@
 <style scoped>
     .tareas {
         width: 100%;
-        overflow-x: auto;
+        //overflow-x: auto;
     }
 </style>
