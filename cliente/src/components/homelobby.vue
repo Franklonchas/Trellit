@@ -32,8 +32,8 @@
                                 <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
                             </a>
                         </mdb-view>
-                        <mdb-card-body cascade>
-                            <h5 style="text-align: center" class="pink-text pb-2 pt-1">
+                        <mdb-card-body cascade style="text-align: center">
+                            <h5 class="pink-text pb-2 pt-1">
                                 Vue + Firebase
                             </h5>
                             <mdb-card-title style="text-align: center"><strong>Las principales tecnologías de esta

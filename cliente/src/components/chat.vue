@@ -51,7 +51,10 @@
         </div>
         <div class="container enviar">
             <mdb-input v-model="localMensaje" type="text" label="Escriba su mensaje..." icon="comment"/>
-            <mdb-btn @click="addMessage" color="indigo">Enviar</mdb-btn>
+            <mdb-btn @click="addMessage" color="indigo">Enviar &nbsp; &nbsp;<img src="../assets/send.png"
+                                                                                 style="width: 20px; height: 20px"
+                                                                                 alt="sendMessage">
+            </mdb-btn>
         </div>
         <br>
     </div>

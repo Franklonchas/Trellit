@@ -3,17 +3,19 @@
         <mdb-container>
             <div class="col-sm-12">
                 <h1>Gráfica Tareas de: {{this.localNameProject}}</h1>
-                <mdb-bar-chart :position="relative" :data="barChartData" :options="barChartOptions" :width="600"
+                <mdb-bar-chart style="position: relative" :data="barChartData" :options="barChartOptions" :width="600"
                                :height="300"></mdb-bar-chart>
             </div>
             <div class="col-sm-12">
                 <h1>Gráficas Globales de Trellit</h1>
-                <mdb-radar-chart :position="relative" :data="radarChartData" :options="radarChartOptions" :width="600"
+                <mdb-radar-chart style="position: relative" :data="radarChartData" :options="radarChartOptions"
+                                 :width="600"
                                  :height="300"></mdb-radar-chart>
             </div>
             <div class="col-sm-12">
                 <h1>Gráfica mensajes en {{this.localNameProject}}</h1>
-                <mdb-horizontal-bar-chart :position="relative" :data="horizontalBarChartData" :options="horizontalBarChartOptions"
+                <mdb-horizontal-bar-chart style="position: relative" :data="horizontalBarChartData"
+                                          :options="horizontalBarChartOptions"
                                           :width="600" :height="300"></mdb-horizontal-bar-chart>
             </div>
         </mdb-container>
