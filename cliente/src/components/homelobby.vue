@@ -113,10 +113,9 @@
                             <h5 class="blue-text"><strong>Jefe de proyecto: {{project.manager}}</strong></h5>
                             <mdb-card-text>{{project.description}}
                             </mdb-card-text>
-                            <mdb-btn color="#FFF">
-                                <router-link :to="'/Project/' + project.idProject">Ir al proyecto
+                                <router-link :to="'/Project/' + project.idProject">
+                                    <mdb-btn color="indigo">Ir al proyecto</mdb-btn>
                                 </router-link>
-                            </mdb-btn>
                         </mdb-card-body>
                     </mdb-card>
                     <br>

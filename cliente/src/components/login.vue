@@ -33,23 +33,22 @@
                                         Entra
                                     </h3>
                                     <hr class="hr-light"/>
-                                    <mdb-input v-model="logUser" style="color: white!important;" label="Email"
-                                               labelColor="white" icon="envelope"
-                                               type="email"/>
-                                    <mdb-input v-model="logPass" style="color: white!important;" label="Contraseña"
-                                               labelColor="white" icon="lock"
-                                               type="password"/>
+                                    <mdb-input v-model="logUser" class="lel" style="color: white!important;"
+                                               label="Email" labelColor="white" icon="envelope" type="email"/>
+                                    <mdb-input v-model="logPass" class="lel" style="color: white!important;"
+                                               label="Contraseña" labelColor="white" icon="lock" type="password"/>
                                     <div class="text-center mt-4 black-text">
                                         <mdb-btn @click="entrar" color="indigo">Entrar</mdb-btn>
                                         <hr class="hr-light"/>
                                         <div class="text-center d-flex justify-content-center white-label">
-                                            <a class="p-2 m-2">
+                                            <a class="p-2 m-2" href="https://github.com/Franklonchas" target="_blank">
                                                 <mdb-icon fab icon="github" class="white-text"/>
                                             </a>
                                             <a class="p-2 m-2">
                                                 <mdb-icon fab icon="linkedin" class="white-text"/>
                                             </a>
-                                            <a class="p-2 m-2">
+                                            <a class="p-2 m-2" href="https://www.instagram.com/franklonchas/"
+                                               target="_blank">
                                                 <mdb-icon fab icon="instagram" class="white-text"/>
                                             </a>
                                         </div>
@@ -66,23 +65,25 @@
                                         Registrate
                                     </h3>
                                     <hr class="hr-light"/>
-                                    <mdb-input v-model="registerUser" label="Nombre" labelColor="white"
+                                    <mdb-input v-model="registerUser" class="lel" label="Nombre" labelColor="white"
                                                icon="user"/>
-                                    <mdb-input v-model="registerEmail" label="Email" labelColor="white"
+                                    <mdb-input v-model="registerEmail" class="lel" label="Email" labelColor="white"
                                                icon="envelope" type="email"/>
-                                    <mdb-input v-model="registerPassword" label="Contraseña" labelColor="white"
+                                    <mdb-input v-model="registerPassword" class="lel" label="Contraseña"
+                                               labelColor="white"
                                                icon="lock" type="password"/>
                                     <div class="text-center mt-4 black-text">
                                         <mdb-btn @click="registrar" color="indigo">Registrar</mdb-btn>
                                         <hr class="hr-light"/>
                                         <div class="text-center d-flex justify-content-center white-label">
-                                            <a class="p-2 m-2">
+                                            <a class="p-2 m-2" href="https://github.com/Franklonchas" target="_blank">
                                                 <mdb-icon fab icon="github" class="white-text"/>
                                             </a>
-                                            <a class="p-2 m-2">
+                                            <a class="p-2 m-2" href="#" target="_blank">
                                                 <mdb-icon fab icon="linkedin" class="white-text"/>
                                             </a>
-                                            <a class="p-2 m-2">
+                                            <a class="p-2 m-2" href="https://www.instagram.com/franklonchas/"
+                                               target="_blank">
                                                 <mdb-icon fab icon="instagram" class="white-text"/>
                                             </a>
                                         </div>
@@ -90,7 +91,6 @@
                                 </mdb-card-body>
                             </mdb-card>
                         </mdb-col>
-
                     </mdb-row>
                 </mdb-container>
             </mdb-mask>
@@ -155,7 +155,7 @@
         },
         sockets: {
             connect: function () {
-                console.log('socket connected')
+                //console.log('socket connected')
             },
         },
         methods: {
@@ -356,6 +356,14 @@
 </script>
 
 <style scoped>
+    .md-form .form-control {
+        color: white !important;
+    }
+
+    .md-form .form-control:focus {
+        color: white !important;
+    }
+
     .classic-form-page .view {
         background-image: url('https://www.iebschool.com/blog/wp-content/uploads/2014/03/MBA-online.jpg');
         background-repeat: no-repeat;
