@@ -4,10 +4,11 @@
             <mdb-row>
                 <mdb-col md="6" xl="5" class="mb-4 createProject">
                     <br>
-                    <div class="z-depth-2 white-text card-body">
-                        <p class="h4 text-center mb-4">Crear Nuevo Proyecto</p>
+                    <div style="background-color: rgb(252, 255, 211);" class="z-depth-2 white-text card-body">
+                        <p style="color: black;" class="h4 text-center mb-4">Crear Nuevo Proyecto</p>
                         <div class="grey-text">
-                            <mdb-input v-model="nombreProyecto" label="Nombre Proyecto" icon="sitemap" type="text"/>
+                            <mdb-input v-model="nombreProyecto" label="Nombre Proyecto" icon="project-diagram"
+                                       type="text"/>
                             <mdb-input v-model="descripcion" label="Descripcion del proyecto" icon="pencil-alt"
                                        type="textarea"/>
                             <mdb-input v-model="emailBoss" label="Jefe de Proyecto (email)" icon="user-tie"
@@ -23,8 +24,8 @@
 
                 <mdb-col md="6" xl="5" class="mb-4 createProject">
                     <br>
-                    <div class="z-depth-2 white-text card-body">
-                        <p class="h4 text-center mb-4">Hacer nuevo ADMINISTRADOR</p>
+                    <div style="background-color: rgb(252, 255, 211);" class="z-depth-2 white-text card-body">
+                        <p style="color: black;" class="h4 text-center mb-4">Hacer nuevo ADMINISTRADOR</p>
                         <div class="grey-text">
                             <mdb-input v-model="emailAdmin" label="Nuevo Admin (email)" icon="user-tie" type="email"/>
                             <mdb-input v-model="localPass2" label="Contraseña Administrador" icon="lock"
@@ -40,8 +41,9 @@
                     </div>
                 </mdb-col>
 
-                <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
+                <mdb-col style="padding-left: 35px;" md="6" xl="5" class="mb-4">
                     <h3 style="text-align: center">Estadisticas de proyectos:</h3>
+                    <br>
                     <mdb-list-group class="z-depth-2">
                         <mdb-list-group-item v-for="project in arrayProjects" v-bind:key="project.idProject">
                             <router-link :to="'/Estadistica/' + project.idProject">{{project.project}}
@@ -52,8 +54,8 @@
                 </mdb-col>
 
                 <mdb-col md="6" xl="5" class="mb-4" style="padding-left: 35px">
-                    <div class="z-depth-2 white-text card-body">
-                        <p class="h4 text-center mb-4">Eliminar Usuario</p>
+                    <div style="background-color: rgb(252, 255, 211);" class="z-depth-2 white-text card-body">
+                        <p style="color: black;" class="h4 text-center mb-4">Eliminar Usuario</p>
                         <div class="grey-text">
                             <mdb-input v-model="usuarioElminar" label="Email usuario eliminar" icon="user"
                                        type="email"/>
