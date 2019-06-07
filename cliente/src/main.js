@@ -20,8 +20,8 @@ Vue.use(Vuetify);
 
 Vue.use(new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:3000',
-    //connection: window.location.hostname,
+    //connection: 'http://localhost:3000',
+    connection: window.location.hostname,
 
 }));
 

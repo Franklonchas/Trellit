@@ -120,7 +120,7 @@
                     this.localAutor += user[i];
                 }
                 this.localUser = this.localAutor;
-                this.localAutor = this.localAutor.split('@trevenque.es');
+                this.localAutor = this.localAutor.split('@gmail.com');
                 return this.localAutor[0];
             },
             addMessage: function () {

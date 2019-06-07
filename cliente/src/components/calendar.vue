@@ -1,6 +1,6 @@
 <template>
     <div class="winter-neva-gradient">
-        <h1 style="text-align: center; padding-top: 30px"> Roadmap Global</h1>
+        <h1 style="text-align: center; padding-top: 30px"> Calendario Global</h1>
         <mdb-container style="text-align: center;">
             <mdb-alert v-if="message" color="success">{{ message }}</mdb-alert>
             <div v-if="modifyEvent">
