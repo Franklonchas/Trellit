@@ -3,26 +3,32 @@
         <mdb-row>
             <mdb-col md="6" xl="5" class="mb-4">
                 <div class="container changePass">
-                    <p class="h4 text-center mb-4">Cambia tu contraseña</p>
-                    <div class="grey-text">
-                        <mdb-input v-model="antiguaPass" label="Antigua Contraseña" icon="lock" type="password"/>
-                        <mdb-input v-model="nuevaPass" label="Nueva Contraseña" icon="lock" type="password"/>
-                        <mdb-input v-model="nuevaPass2" label="Repetir Nueva Contraseña" icon="exclamation-triangle"
-                                   type="password"/>
-                    </div>
-                    <div class="text-center">
-                        <mdb-btn v-on:click="changePassword" color="primary">Cambiar Contraseña</mdb-btn>
+                    <div style="background-color: rgb(252, 255, 211);" class="z-depth-2 white-text card-body">
+                        <p style="color: black;" class="h4 text-center mb-4">Cambiar contraseña</p>
+                        <div class="grey-text">
+                            <mdb-input v-model="antiguaPass" label="Antigua Contraseña" icon="lock" type="password"/>
+                            <mdb-input v-model="nuevaPass" label="Nueva Contraseña" icon="lock" type="password"/>
+                            <mdb-input v-model="nuevaPass2" label="Repetir Nueva Contraseña" icon="exclamation-triangle"
+                                       type="password"/>
+                        </div>
+                        <div class="text-center">
+                            <mdb-btn v-on:click="changePassword" color="indigo">Cambiar Contraseña</mdb-btn>
+                        </div>
                     </div>
                 </div>
             </mdb-col>
 
             <mdb-col md="6" xl="5" class="mb-4">
                 <div class="container changePass">
-                    <p class="h4 text-center mb-4">Tu información Personal</p>
-                    <p>Nombre: {{nombre}}</p>
-                    <p>Email: {{email}}</p>
-                    <p>Contraseña: {{pass}}</p>
-                    <p>Rol: {{localRol}}</p>
+                    <div style="background-color: rgb(252, 255, 211);" class="z-depth-2 white-text card-body">
+                        <p style="color: black;" class="h4 text-center mb-4">Tu información Personal</p>
+                        <div class="black-text">
+                            <p>Nombre: {{nombre}}</p>
+                            <p>Email: {{email}}</p>
+                            <p>Contraseña: {{pass}}</p>
+                            <p>Rol: {{localRol}}</p>
+                        </div>
+                    </div>
                 </div>
             </mdb-col>
         </mdb-row>

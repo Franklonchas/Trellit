@@ -22,6 +22,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
+                <br>
                 <mdb-col sm="3">
                     <mdb-card narrow>
                         <mdb-view hover cascade>
@@ -49,6 +50,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
+                <br>
                 <mdb-col sm="3">
                     <mdb-card cascade>
                         <mdb-view hover cascade>
@@ -69,6 +71,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
+                <br>
                 <mdb-col sm="3">
                     <mdb-card cascade>
                         <mdb-view hover cascade>
@@ -91,6 +94,7 @@
                         </mdb-card-body>
                     </mdb-card>
                 </mdb-col>
+                <br>
             </mdb-row>
         </mdb-container>
         <br>

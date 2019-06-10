@@ -59,7 +59,7 @@
 
                         <mdb-col v-if="this.boolRegister === true" md="6" xl="5" class="mb-4">
                             <mdb-card id="classic-card">
-                                <mdb-card-body class="z-depth-2 white-text">
+                                <mdb-card-body class="z-depth-1 white-text">
                                     <h3 class="text-center">
                                         <mdb-icon icon="user-edit"/>
                                         Registrate

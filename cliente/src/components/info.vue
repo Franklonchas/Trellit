@@ -1,9 +1,9 @@
 <template>
     <div class="winter-neva-gradient">
-        <mdb-btn outline="primary" class="buttonlol" darkWaves>
-            <router-link :to="'/Lobby'">Volver</router-link>
-        </mdb-btn>
         <div class="container">
+            <router-link :to="'/Lobby'">
+                <mdb-btn color="indigo">Volver</mdb-btn>
+            </router-link>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">

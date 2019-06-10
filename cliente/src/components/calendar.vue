@@ -9,7 +9,7 @@
                 <mdb-modal :show="login2" @close="login2 = false">
                     <mdb-modal-header class="text-center">
                         <mdb-modal-title class="w-100" tag="h4" bold>
-                            Modificar evento de Roadmap
+                            Modificar evento del Calendario
                         </mdb-modal-title>
                     </mdb-modal-header>
                     <mdb-modal-body class="mx-3 grey-text">
@@ -32,7 +32,7 @@
             <mdb-modal :show="login" @close="login = false">
                 <mdb-modal-header class="text-center">
                     <mdb-modal-title class="w-100" tag="h4" bold>
-                        Añadir evento a Roadmap
+                        Añadir evento al Calendario
                     </mdb-modal-title>
                 </mdb-modal-header>
                 <mdb-modal-body class="mx-3 grey-text">

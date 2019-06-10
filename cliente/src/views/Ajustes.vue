@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div style="height: 80% !important" >
         <Navbar></Navbar>
-        <Settings></Settings>
+        <Settings class="h-100"></Settings>
     </div>
 </template>
 
