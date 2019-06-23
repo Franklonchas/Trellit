@@ -30,7 +30,7 @@
                 </mdb-col>
                 <mdb-col sm="3">
                     <h5 class="title">Código QR:</h5>
-                    <img style="height: 60px; width: 60px;" src="../assets/CodeQR.png">
+                    <img style="height: 60px; width: 60px; z-index: -1;" src="../assets/CodeQR.png">
                 </mdb-col>
             </mdb-row>
         </mdb-container>

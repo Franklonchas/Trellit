@@ -19,7 +19,7 @@ export function auth() {
     let localKey = localStorage.getItem('sesion_activa');
     if (localKey) {
         firebase.database().ref('users/').on('value', snapshots => loadUsers(snapshots.val()));
-        for (let i = 0; i <= userDB.length; i++) {
+        for (let i = 0; i < userDB.length; i++) {
             if (localKey === userDB[i].idUniq) {
                 return userDB[i].rol;
             }
@@ -32,7 +32,7 @@ export function user() {
     let localKey = localStorage.getItem('sesion_activa');
     if (localKey) {
         firebase.database().ref('users/').on('value', snapshots => loadUsers(snapshots.val()));
-        for (let i = 0; i <= userDB.length; i++) {
+        for (let i = 0; i < userDB.length; i++) {
             if (localKey === userDB[i].idUniq) {
                 return userDB[i].user;
             }
